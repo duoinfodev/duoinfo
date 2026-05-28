@@ -31,6 +31,7 @@
       color:#111827;
       overflow:hidden;
       position:relative;
+      cursor:default;
     }
 
     /* subtle grid */
@@ -66,6 +67,7 @@
       font-size:0.9rem;
       font-weight:600;
       margin-bottom:32px;
+      backdrop-filter:blur(10px);
     }
 
     .dot{
@@ -74,6 +76,7 @@
       border-radius:50%;
       background:#22c55e;
       animation:pulse 1.8s infinite;
+      box-shadow:0 0 12px rgba(34,197,94,0.5);
     }
 
     h1{
@@ -161,6 +164,26 @@
       width:100%;
     }
 
+    /* mouse glow effect */
+
+    .cursor-glow{
+      position:fixed;
+      width:280px;
+      height:280px;
+      border-radius:50%;
+      pointer-events:none;
+      background:radial-gradient(
+        circle,
+        rgba(29,191,115,0.12) 0%,
+        rgba(29,191,115,0.06) 35%,
+        transparent 70%
+      );
+      transform:translate(-50%, -50%);
+      z-index:0;
+      mix-blend-mode:multiply;
+      filter:blur(10px);
+    }
+
     @keyframes pulse{
       0%{
         transform:scale(1);
@@ -190,12 +213,20 @@
         font-size:1rem;
       }
 
+      .cursor-glow{
+        display:none;
+      }
+
     }
 
   </style>
 </head>
 
 <body>
+
+  <!-- Mouse Glow -->
+
+  <div class="cursor-glow"></div>
 
   <div class="container">
 
@@ -248,6 +279,8 @@
 
   <script>
 
+    /* Progress animation */
+
     let progress = 0;
 
     const progressFill = document.getElementById("progressFill");
@@ -268,73 +301,23 @@
 
     setInterval(animateProgress, 250);
 
-  </script>
+    /* Mouse glow effect */
 
-<div class="cursor-glow"></div>
+    const glow = document.querySelector(".cursor-glow");
 
-<style>
+    document.addEventListener("mousemove", (e) => {
 
-  /* Mouse glow effect */
+      glow.animate({
+        left: `${e.clientX}px`,
+        top: `${e.clientY}px`
+      }, {
+        duration: 400,
+        fill: "forwards"
+      });
 
-  .cursor-glow{
-    position:fixed;
-    width:280px;
-    height:280px;
-    border-radius:50%;
-    pointer-events:none;
-    background:radial-gradient(
-      circle,
-      rgba(29,191,115,0.12) 0%,
-      rgba(29,191,115,0.06) 35%,
-      transparent 70%
-    );
-    transform:translate(-50%, -50%);
-    z-index:0;
-    transition:
-      width 0.3s ease,
-      height 0.3s ease;
-    mix-blend-mode:multiply;
-  }
-
-</style>
-
-<script>
-
-  let progress = 0;
-
-  const progressFill = document.getElementById("progressFill");
-  const percent = document.getElementById("percent");
-
-  function animateProgress(){
-
-    if(progress < 97){
-      progress++;
-    }
-
-    progressFill.style.width = progress + "%";
-    percent.innerText = progress + "%";
-
-  }
-
-  setInterval(animateProgress, 250);
-
-  /* Mouse glow effect */
-
-  const glow = document.querySelector(".cursor-glow");
-
-  document.addEventListener("mousemove", (e) => {
-
-    glow.animate({
-      left: `${e.clientX}px`,
-      top: `${e.clientY}px`
-    }, {
-      duration: 400,
-      fill: "forwards"
     });
 
-  });
+  </script>
 
-</script>
-  
 </body>
 </html>

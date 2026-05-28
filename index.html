@@ -8,7 +8,6 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
@@ -34,17 +33,33 @@
       cursor:default;
     }
 
-    /* subtle grid */
-
+    /* subtle static grid */
     body::before{
       content:"";
       position:absolute;
       inset:0;
-      background-image:
-        radial-gradient(rgba(0,0,0,0.05) 1px, transparent 1px);
+      background-image:radial-gradient(rgba(0,0,0,0.05) 1px, transparent 1px);
       background-size:28px 28px;
       opacity:0.35;
       pointer-events:none;
+    }
+
+    /* hero dots animated background */
+    .hero-dots{
+      position:absolute;
+      inset:0;
+      z-index:0;
+      background-image:radial-gradient(circle, rgba(15,26,20,.08) 1.5px, transparent 1.5px);
+      background-size:26px 26px;
+      mask-image:radial-gradient(ellipse 80% 80% at 65% 45%, black 20%, transparent 100%);
+      animation: drift 60s linear infinite;
+      pointer-events:none;
+    }
+
+    @keyframes drift {
+      0% { transform: translate(0,0); }
+      50% { transform: translate(50px, -50px); }
+      100% { transform: translate(0,0); }
     }
 
     .container{
@@ -99,8 +114,6 @@
       max-width:540px;
       margin-bottom:40px;
     }
-
-    /* progress card */
 
     .progress-card{
       background:rgba(255,255,255,0.72);
@@ -164,8 +177,6 @@
       width:100%;
     }
 
-    /* mouse glow effect */
-
     .cursor-glow{
       position:fixed;
       width:280px;
@@ -185,38 +196,16 @@
     }
 
     @keyframes pulse{
-      0%{
-        transform:scale(1);
-        opacity:1;
-      }
-      50%{
-        transform:scale(1.4);
-        opacity:0.5;
-      }
-      100%{
-        transform:scale(1);
-        opacity:1;
-      }
+      0%{transform:scale(1);opacity:1;}
+      50%{transform:scale(1.4);opacity:0.5;}
+      100%{transform:scale(1);opacity:1;}
     }
 
     @media(max-width:640px){
-
-      .container{
-        padding:40px 24px;
-      }
-
-      h1{
-        letter-spacing:-2px;
-      }
-
-      p{
-        font-size:1rem;
-      }
-
-      .cursor-glow{
-        display:none;
-      }
-
+      .container{padding:40px 24px;}
+      h1{letter-spacing:-2px;}
+      p{font-size:1rem;}
+      .cursor-glow{display:none;}
     }
 
   </style>
@@ -224,8 +213,10 @@
 
 <body>
 
-  <!-- Mouse Glow -->
+  <!-- hero dots background -->
+  <div class="hero-dots"></div>
 
+  <!-- Mouse Glow -->
   <div class="cursor-glow"></div>
 
   <div class="container">
@@ -241,24 +232,14 @@
     </h1>
 
     <p>
-      <B>DUOINFO</B> prépare actuellement une nouvelle plateforme moderne,
-      rapide et simple pour accompagner les PME et travailleurs autonomes du Québec.
+      <b>Duoinfo</b> prépare actuellement une nouvelle plateforme moderne, rapide et simple pour accompagner les PME et travailleurs autonomes du Québec dans la résolution de leurs problèmes informatiques.
     </p>
-
-    <!-- Progress Card -->
 
     <div class="progress-card">
 
       <div class="progress-top">
-
-        <div class="progress-title">
-          Développement en cours
-        </div>
-
-        <div class="progress-percent" id="percent">
-          0%
-        </div>
-
+        <div class="progress-title">Création du site web en cours</div>
+        <div class="progress-percent" id="percent">0%</div>
       </div>
 
       <div class="progress-bar">
@@ -279,34 +260,24 @@
 
   <script>
 
-    /* Progress animation */
-
     let progress = 0;
 
     const progressFill = document.getElementById("progressFill");
     const percent = document.getElementById("percent");
 
     function animateProgress(){
-
       if(progress < 97){
         progress++;
       }
-
       progressFill.style.width = progress + "%";
       percent.innerText = progress + "%";
-
     }
 
-    /* Slow realistic loading */
-
     setInterval(animateProgress, 250);
-
-    /* Mouse glow effect */
 
     const glow = document.querySelector(".cursor-glow");
 
     document.addEventListener("mousemove", (e) => {
-
       glow.animate({
         left: `${e.clientX}px`,
         top: `${e.clientY}px`
@@ -314,7 +285,6 @@
         duration: 400,
         fill: "forwards"
       });
-
     });
 
   </script>

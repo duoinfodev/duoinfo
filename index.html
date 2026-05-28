@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>duoinfo — Support TI pour PME</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --ink:#0f1a14;
+      --bg:#f2f5f0;
+      --card:#ffffff;
+      --accent:#1db87a;
+      --accent2:#0e9e65;
+      --accent3:#0fd48a;
+      --pop:#ff5c3a;
+      --green:#1db87a;
+      --warn:#f5a623;
+      --muted:#7a8c82;
+      --border:#dce8e0;
+      --r-sm:14px;
+      --r-md:20px;
+      --r-lg:28px;
+      --r-xl:36px;
+    }
+    html{scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',sans-serif;font-weight:400;line-height:1.6;overflow-x:hidden}
+
+    /* ── NAV ── */
+    nav{
+      position:fixed;top:1rem;left:50%;transform:translateX(-50%);z-index:99;
+      display:flex;justify-content:space-between;align-items:center;
+      padding:.75rem 1.25rem .75rem 1.6rem;
+      background:rgba(255,255,255,.82);backdrop-filter:blur(20px);
+      border:1px solid rgba(255,255,255,.95);
+      border-radius:999px;
+      box-shadow:0 4px 32px rgba(15,26,20,.08);
+      width:min(860px,92vw);
+      animation:slideDown .5s ease both;
+    }
+    .logo{font-weight:800;font-size:1.1rem;letter-spacing:-.03em;display:flex;align-items:center;gap:.3rem}
+    .logo-duo{color:var(--ink)}
+    .logo-info{color:var(--accent)}
+    .logo-dot{width:7px;height:7px;border-radius:50%;background:var(--pop);margin-bottom:3px}
+    nav ul{list-style:none;display:flex;gap:1.8rem;align-items:center}
+    nav a{text-decoration:none;color:var(--ink);font-size:.82rem;font-weight:500;opacity:.5;transition:opacity .2s}
+    nav a:hover{opacity:1}
+    .nav-btn{
+      background:var(--ink);color:#fff!important;opacity:1!important;
+      padding:.5rem 1.2rem;border-radius:999px;font-weight:600!important;font-size:.82rem!important;
+      transition:background .2s,transform .15s,box-shadow .15s;
+      box-shadow:0 2px 12px rgba(15,26,20,.18);
+    }
+    .nav-btn:hover{background:var(--accent2);transform:translateY(-1px);box-shadow:0 4px 20px rgba(29,184,122,.35)}
+
+    /* ── HERO ── */
+    #hero{
+      min-height:100vh;
+      display:grid;grid-template-columns:1fr 1fr;align-items:center;
+      padding:8rem 6vw 5rem;gap:4vw;
+      position:relative;overflow:hidden;
+    }
+    .hero-glow{
+      position:absolute;inset:0;z-index:0;pointer-events:none;
+      background:
+        radial-gradient(ellipse 55% 60% at 80% 40%, rgba(29,184,122,.1) 0%, transparent 65%),
+        radial-gradient(ellipse 35% 40% at 8% 80%, rgba(255,92,58,.06) 0%, transparent 60%);
+    }
+    .hero-dots{
+      position:absolute;inset:0;z-index:0;
+      background-image:radial-gradient(circle,rgba(15,26,20,.08) 1.5px,transparent 1.5px);
+      background-size:26px 26px;
+      mask-image:radial-gradient(ellipse 80% 80% at 65% 45%, black 20%, transparent 100%);
+    }
+    .hero-copy{position:relative;z-index:1;animation:up .7s .05s ease both}
+    .tag{
+      display:inline-flex;align-items:center;gap:.5rem;
+      background:rgba(29,184,122,.1);border:1px solid rgba(29,184,122,.22);
+      padding:.35rem .9rem;border-radius:999px;
+      font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+      color:var(--accent2);margin-bottom:1.6rem;
+    }
+    .tag-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s ease infinite}
+    h1{
+      font-weight:800;
+      font-size:clamp(2.4rem,4.2vw,3.8rem);line-height:1.06;letter-spacing:-.035em;
+      margin-bottom:1.2rem;
+    }
+    h1 span{color:var(--accent)}
+    .sub{font-size:.97rem;color:var(--muted);max-width:390px;margin-bottom:2.2rem;line-height:1.75;font-weight:400}
+    .ctas{display:flex;gap:.75rem;flex-wrap:wrap}
+    .btn-p{
+      background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;text-decoration:none;
+      padding:.85rem 1.8rem;border-radius:999px;font-weight:600;font-size:.9rem;
+      box-shadow:0 6px 28px rgba(29,184,122,.35);
+      transition:transform .15s,box-shadow .15s;
+    }
+    .btn-p:hover{transform:translateY(-2px);box-shadow:0 10px 36px rgba(29,184,122,.45)}
+    .btn-o{
+      color:var(--ink);text-decoration:none;
+      padding:.85rem 1.8rem;border:1.5px solid var(--border);border-radius:999px;font-size:.9rem;font-weight:500;
+      background:var(--card);
+      transition:border-color .2s,box-shadow .2s;
+    }
+    .btn-o:hover{border-color:var(--accent);box-shadow:0 4px 16px rgba(29,184,122,.12)}
+
+    /* ── TERMINAL ── */
+    .hero-terminal{position:relative;z-index:1;animation:up .7s .2s ease both;transition:transform .6s cubic-bezier(.22,1,.36,1)}
+    .terminal-wrap{
+      background:linear-gradient(145deg,var(--accent),#07805a);
+      border-radius:var(--r-xl);padding:3px;
+      box-shadow:0 32px 80px rgba(29,184,122,.22),0 8px 24px rgba(15,26,20,.1);
+    }
+    .terminal{background:#0a100d;border-radius:calc(var(--r-xl) - 3px);overflow:hidden}
+    .t-bar{
+      background:#111a14;padding:.8rem 1.2rem;
+      display:flex;align-items:center;gap:.45rem;
+      border-bottom:1px solid rgba(255,255,255,.05);
+    }
+    .d{width:11px;height:11px;border-radius:50%}
+    .dr{background:#ff5f57}.dy{background:#febc2e}.dg{background:#28c840}
+    .t-title{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:rgba(255,255,255,.2);margin-left:auto;letter-spacing:.04em}
+    .t-body{padding:1.6rem 1.6rem 2rem;font-family:'IBM Plex Mono',monospace}
+    .t-line{font-size:.78rem;line-height:1.95;opacity:0;transform:translateY(4px);transition:opacity .25s ease,transform .25s ease}
+    .t-line.show{opacity:1;transform:translateY(0)}
+    .t-prompt{color:var(--accent)}
+    .t-cmd{color:#c8d8cc}
+    .t-ok{color:var(--green)}
+    .t-warn{color:var(--warn)}
+    .t-dim{color:#2e4038}
+    .cursor{display:inline-block;width:7px;height:.85em;background:var(--accent);vertical-align:text-bottom;animation:blink .85s step-end infinite;margin-left:1px}
+
+    /* ── SERVICES ── */
+    #services{padding:5.5rem 6vw}
+    .s-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2.5rem;flex-wrap:wrap;gap:1rem}
+    .eyebrow{display:inline-flex;align-items:center;gap:.4rem;font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent2);margin-bottom:.5rem}
+    h2{font-weight:800;font-size:clamp(1.7rem,2.8vw,2.3rem);letter-spacing:-.025em;line-height:1.15}
+    .s-note{font-size:.85rem;color:var(--muted);max-width:260px;text-align:right;line-height:1.5}
+    .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+    .card{
+      background:var(--card);padding:1.8rem;border-radius:var(--r-lg);
+      border:1px solid var(--border);
+      transition:transform .2s,box-shadow .2s,border-color .2s;cursor:default;
+    }
+    .card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(29,184,122,.1);border-color:rgba(29,184,122,.3)}
+    .card-icon{
+      width:44px;height:44px;border-radius:var(--r-sm);
+      background:rgba(29,184,122,.1);display:flex;align-items:center;justify-content:center;
+      font-size:1.2rem;margin-bottom:1.1rem;transition:background .2s;
+    }
+    .card:hover .card-icon{background:rgba(29,184,122,.18)}
+    .card h3{font-weight:700;font-size:.97rem;margin-bottom:.35rem;letter-spacing:-.01em}
+    .card p{font-size:.82rem;color:var(--muted);line-height:1.65}
+
+    /* ── STRIP ── */
+    #strip{padding:0 6vw 5.5rem}
+    .strip-inner{
+      background:linear-gradient(135deg,#0a100d 0%,#0f1f17 100%);
+      border-radius:var(--r-xl);padding:3rem 3.5rem;
+      display:flex;justify-content:space-between;align-items:center;gap:2rem;flex-wrap:wrap;
+      position:relative;overflow:hidden;
+    }
+    .strip-inner::before{
+      content:'';position:absolute;top:-40%;right:-5%;
+      width:400px;height:400px;border-radius:50%;
+      background:radial-gradient(circle,rgba(29,184,122,.14) 0%,transparent 70%);
+    }
+    .strip-inner::after{
+      content:'';position:absolute;bottom:-50%;left:5%;
+      width:300px;height:300px;border-radius:50%;
+      background:radial-gradient(circle,rgba(255,92,58,.07) 0%,transparent 70%);
+    }
+    #strip h2{color:#fff;position:relative;z-index:1}
+    #strip p{color:rgba(255,255,255,.35);font-size:.88rem;margin-top:.35rem;position:relative;z-index:1}
+    .strip-btn{
+      background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;text-decoration:none;
+      padding:.9rem 2rem;border-radius:999px;font-weight:600;white-space:nowrap;font-size:.9rem;
+      box-shadow:0 4px 24px rgba(29,184,122,.4);position:relative;z-index:1;
+      transition:transform .15s,box-shadow .15s;
+    }
+    .strip-btn:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(29,184,122,.5)}
+
+    /* ── CONTACT ── */
+    #contact{padding:0 6vw 5.5rem}
+    .contact-card{
+      max-width:560px;margin:0 auto;
+      background:var(--card);border-radius:var(--r-xl);
+      border:1px solid var(--border);
+      padding:3rem;
+      box-shadow:0 8px 40px rgba(15,26,20,.06);
+      text-align:center;
+    }
+    .contact-card h2{margin-bottom:.5rem}
+    .contact-card p{color:var(--muted);margin-bottom:2rem;font-size:.92rem}
+    .form{display:flex;flex-direction:column;gap:.75rem;text-align:left}
+    .row2{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+    input,textarea{
+      width:100%;padding:.8rem 1.1rem;
+      border:1.5px solid var(--border);border-radius:var(--r-md);
+      background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;font-size:.88rem;color:var(--ink);
+      transition:border-color .2s,box-shadow .2s;outline:none;font-weight:400;
+    }
+    input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 4px rgba(29,184,122,.1);background:var(--card)}
+    textarea{min-height:100px;resize:vertical}
+    .send{
+      background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;cursor:pointer;
+      padding:.9rem 2rem;border-radius:999px;font-family:'Plus Jakarta Sans',sans-serif;
+      font-size:.9rem;font-weight:600;align-self:center;
+      box-shadow:0 4px 20px rgba(29,184,122,.3);
+      transition:transform .15s,box-shadow .15s;
+    }
+    .send:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(29,184,122,.42)}
+
+    /* ── FOOTER ── */
+    footer{
+      padding:1.5rem 6vw;border-top:1px solid var(--border);
+      display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem;
+    }
+    .f-logo{font-weight:800;font-size:1rem;letter-spacing:-.02em}
+    .f-logo span{color:var(--accent)}
+    footer small{color:var(--muted);font-size:.75rem}
+
+    .reveal{opacity:0;transform:translateY(26px);transition:opacity .65s cubic-bezier(.22,1,.36,1),transform .65s cubic-bezier(.22,1,.36,1)}
+    .reveal.in{opacity:1;transform:none}
+    /* staggered cards */
+    .grid3.in .card:nth-child(1){transition-delay:.05s}
+    .grid3.in .card:nth-child(2){transition-delay:.13s}
+    .grid3.in .card:nth-child(3){transition-delay:.21s}
+    .grid3.in .card:nth-child(4){transition-delay:.29s}
+    .grid3.in .card:nth-child(5){transition-delay:.37s}
+    .grid3.in .card:nth-child(6){transition-delay:.45s}
+    .card{opacity:0;transform:translateY(20px);transition:opacity .55s cubic-bezier(.22,1,.36,1),transform .55s cubic-bezier(.22,1,.36,1),box-shadow .2s,border-color .2s}
+    .grid3.in .card{opacity:1;transform:none}
+
+    /* mouse-follow orb */
+    #orb{
+      position:fixed;width:520px;height:520px;border-radius:50%;
+      background:radial-gradient(circle,rgba(29,184,122,.13) 0%,transparent 70%);
+      pointer-events:none;z-index:0;
+      transform:translate(-50%,-50%);
+      transition:left .9s cubic-bezier(.22,1,.36,1),top .9s cubic-bezier(.22,1,.36,1);
+      mix-blend-mode:multiply;
+    }
+
+    @keyframes up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+    @keyframes slideDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+    @keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.6);opacity:.4}}
+
+    @media(max-width:860px){
+      #hero{grid-template-columns:1fr;padding:7rem 5vw 3rem}
+      nav ul{display:none}
+      .grid3{grid-template-columns:1fr 1fr}
+      .strip-inner{padding:2rem;border-radius:var(--r-lg)}
+      .s-note{text-align:left;max-width:none}
+      .row2{grid-template-columns:1fr}
+      .contact-card{padding:2rem}
+    }
+    @media(max-width:520px){
+      .grid3{grid-template-columns:1fr}
+      nav{top:.6rem}
+    }
+  </style>
+</head>
+<body>
+<div id="orb"></div>
+
+<nav>
+  <div class="logo">
+    <span class="logo-duo">duo</span><span class="logo-info">info</span><span class="logo-dot"></span>
+  </div>
+  <ul>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#contact" class="nav-btn">Consultation gratuite</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-dots"></div>
+  <div class="hero-copy">
+    <p class="tag"><span class="tag-dot"></span>Support informatique · Québec</p>
+    <h1>L'IT simple,<br/>rapide &amp;<br/><span>sans jargon.</span></h1>
+    <p class="sub">Support informatique pour PME et travailleurs autonomes. On règle vos problèmes — sans vous faire perdre une journée.</p>
+    <div class="ctas">
+      <a href="#contact" class="btn-p">Consultation gratuite</a>
+      <a href="#services" class="btn-o">Voir les services</a>
+    </div>
+  </div>
+  <div class="hero-terminal">
+    <div class="terminal-wrap">
+      <div class="terminal">
+        <div class="t-bar">
+          <div class="d dr"></div><div class="d dy"></div><div class="d dg"></div>
+          <span class="t-title">duoinfo — diagnostique</span>
+        </div>
+        <div class="t-body" id="tBody">
+          <div class="t-line"><span class="t-prompt">$</span> <span class="t-cmd">duoinfo diagnostique --complet</span></div>
+          <div class="t-line"><span class="t-dim">──────────────────────────────</span></div>
+          <div class="t-line"><span class="t-dim">Réseau</span></div>
+          <div class="t-line"><span class="t-ok">  ✓</span> <span class="t-cmd">Connexion sécurisée  </span><span class="t-dim">256-bit TLS</span></div>
+          <div class="t-line"><span class="t-ok">  ✓</span> <span class="t-cmd">Pare-feu actif</span></div>
+          <div class="t-line"><span class="t-dim">Stockage &amp; sauvegardes</span></div>
+          <div class="t-line"><span class="t-ok">  ✓</span> <span class="t-cmd">Sauvegarde cloud  </span><span class="t-dim">il y a 3h</span></div>
+          <div class="t-line"><span class="t-warn">  !</span> <span class="t-cmd">Disque C:  </span><span class="t-warn">78% utilisé</span></div>
+          <div class="t-line"><span class="t-dim">Sécurité</span></div>
+          <div class="t-line"><span class="t-ok">  ✓</span> <span class="t-cmd">Antivirus à jour</span></div>
+          <div class="t-line"><span class="t-ok">  ✓</span> <span class="t-cmd">Mises à jour Windows</span></div>
+          <div class="t-line"><span class="t-dim">──────────────────────────────</span></div>
+          <div class="t-line"><span class="t-ok">Système opérationnel</span> <span class="t-dim">· 1 avertissement</span></div>
+          <div class="t-line"><span class="t-prompt">$</span> <span class="cursor"></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="s-head reveal">
+    <div>
+      <p class="eyebrow">Ce qu'on fait</p>
+      <h2>Des services qui<br/>s'adaptent à vous.</h2>
+    </div>
+    <p class="s-note">Pour les PME de 1 à 50 employés et les travailleurs autonomes.</p>
+  </div>
+  <div class="grid3 reveal">
+    <div class="card">
+      <div class="card-icon">🔧</div>
+      <h3>Support &amp; dépannage</h3>
+      <p>En personne, à distance ou au téléphone. Réponse en moins de 4h.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔒</div>
+      <h3>Sécurité &amp; sauvegardes</h3>
+      <p>Protection contre les cybermenaces et automatisation de vos sauvegardes.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">☁️</div>
+      <h3>Cloud &amp; Microsoft 365</h3>
+      <p>Migration, configuration et gestion de Teams, SharePoint et OneDrive.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📡</div>
+      <h3>Réseau &amp; infrastructure</h3>
+      <p>Wi-Fi, routeurs, NAS, imprimantes — installation et optimisation.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📋</div>
+      <h3>Consultation TI</h3>
+      <p>Conseils stratégiques et planification technologique adaptés à votre budget.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔄</div>
+      <h3>Maintenance préventive</h3>
+      <p>Mises à jour, monitoring et rapports réguliers — avant que ça brise.</p>
+    </div>
+  </div>
+</section>
+
+<!-- STRIP -->
+<section id="strip" class="reveal">
+  <div class="strip-inner">
+    <div>
+      <h2>Prêt à régler votre situation?</h2>
+      <p>Première consultation gratuite · Sans engagement · Réponse en 24h</p>
+    </div>
+    <a href="#contact" class="strip-btn">Parlons-nous →</a>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-card reveal">
+    <p class="eyebrow" style="justify-content:center;display:flex">Contact</p>
+    <h2>Consultation gratuite,<br/>sans engagement.</h2>
+    <p>Décrivez votre problème — on vous répond dans les 24h avec une approche concrète.</p>
+    <div class="form">
+      <div class="row2">
+        <input type="text" placeholder="Votre nom"/>
+        <input type="text" placeholder="Votre entreprise"/>
+      </div>
+      <input type="email" placeholder="Courriel"/>
+      <textarea placeholder="Décrivez votre besoin ou problème…"></textarea>
+      <button class="send">Envoyer →</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="f-logo">duo<span>info</span></div>
+  <small>© 2026 duoinfo Consultation TI · Québec</small>
+  <small>info@duoinfo.ca · (514) 000-0000</small>
+</footer>
+
+<script>
+  // Terminal typewriter
+  const lines = document.querySelectorAll('#tBody .t-line');
+  lines.forEach((l,i) => setTimeout(()=>l.classList.add('show'), 300 + i*130));
+
+  // Scroll reveals
+  const obs = new IntersectionObserver(e=>e.forEach(x=>{
+    if(x.isIntersecting){x.target.classList.add('in');obs.unobserve(x.target)}
+  }),{threshold:.08});
+  document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
+
+  // Mouse-follow orb
+  const orb = document.getElementById('orb');
+  let mx=window.innerWidth/2, my=window.innerHeight/2;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
+  (function loop(){
+    orb.style.left=mx+'px';
+    orb.style.top=my+'px';
+    requestAnimationFrame(loop);
+  })();
+
+  // Subtle parallax on terminal
+  const terminal = document.querySelector('.hero-terminal');
+  const hero = document.getElementById('hero');
+  document.addEventListener('mousemove',e=>{
+    if(!terminal||!hero) return;
+    const rect=hero.getBoundingClientRect();
+    if(rect.bottom<0||rect.top>window.innerHeight) return;
+    const cx=rect.left+rect.width/2, cy=rect.top+rect.height/2;
+    const dx=(e.clientX-cx)/rect.width, dy=(e.clientY-cy)/rect.height;
+    terminal.style.transform=`translate(${dx*10}px,${dy*7}px)`;
+  });
+</script>
+</body>
+</html>

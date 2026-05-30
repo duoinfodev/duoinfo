@@ -713,7 +713,30 @@
             pointer-events: none;
         }
 
-        /* ── DIVIDERS ── */
+        .card-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: .3rem;
+            font-size: .68rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-top: .5rem;
+            opacity: 0;
+            transform: translateX(-4px);
+            transition: opacity .25s ease, transform .25s ease;
+        }
+
+        .card:hover .card-cta {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        @media (hover: none) {
+            .card .card-cta {
+                opacity: 1 !important;
+                transform: translateX(0) !important;
+            }
+        }
         .divider {
             height: 1px;
             margin: 0 15vw;
@@ -1803,6 +1826,7 @@
                 <div class="card-body">
                     <h3>Support &amp; dépannage</h3>
                     <p>Dépannage, installation et configuration de vos ordinateurs, imprimantes, logiciels et autres.</p>
+                    <span class="card-cta">Choisir ce service →</span>
                     <span class="card-result">On se déplace chez vous</span>
                 </div>
             </div>
@@ -1812,6 +1836,7 @@
                 <div class="card-body">
                     <h3>Sécurité &amp; sauvegardes</h3>
                     <p>Antivirus, mises à jour et sauvegardes de vos fichiers importants, locale et cloud.</p>
+                    <span class="card-cta">Choisir ce service →</span>
                     <span class="card-result">Locale et cloud inclus</span>
                 </div>
             </div>
@@ -1821,6 +1846,7 @@
                 <div class="card-body">
                     <h3>Cloud &amp; Microsoft 365</h3>
                     <p>Migration Teams, SharePoint et OneDrive.</p>
+                    <span class="card-cta">Choisir ce service →</span>
                     <span class="card-result">Migration sans interruption</span>
                 </div>
             </div>
@@ -1830,6 +1856,7 @@
                 <div class="card-body">
                     <h3>Réseau &amp; infrastructure</h3>
                     <p>Wi-Fi, routeurs, NAS, imprimantes.</p>
+                    <span class="card-cta">Choisir ce service →</span>
                     <span class="card-result">Installation et configuration incluses</span>
                 </div>
             </div>
@@ -1839,6 +1866,7 @@
                 <div class="card-body">
                     <h3>Consultation TI</h3>
                     <p>Planification et conseils pour vos projets informatiques.</p>
+                    <span class="card-cta">Choisir ce service →</span>
                     <span class="card-result">Service personnalisé garanti</span>
                 </div>
             </div>
@@ -1848,6 +1876,7 @@
                 <div class="card-body">
                     <h3>Maintenance préventive</h3>
                     <p>Optimisation, nettoyage et diagnostic préventif.</p>
+                    <span class="card-cta">Choisir ce service →</span>
                     <span class="card-result">Évitez les pannes avant qu'elles arrivent</span>
                 </div>
             </div>

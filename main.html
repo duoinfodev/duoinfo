@@ -1480,11 +1480,11 @@
         .mobile-menu.open { opacity: 1 }
 
         .mobile-menu a {
-            font-size: 1.6rem;
-            font-weight: 700;
+            font-size: .82rem;
+            font-weight: 600;
             color: var(--ink);
             text-decoration: none;
-            letter-spacing: -.02em;
+            letter-spacing: -.01em;
             opacity: 0;
             transform: translateY(12px);
             transition: opacity .3s, transform .3s, color .2s;
@@ -1585,17 +1585,28 @@
                 margin-bottom: 1.8rem;
             }
 
-            .mobile-accroche .tag {
-                margin-bottom: 0;
-            }
+            .mobile-accroche .tag { margin-bottom: 0 }
 
-            .cad-note { display: none }
+            .mobile-accroche-label {
+                display: inline-flex;
+                align-items: center;
+                gap: .45rem;
+                font-size: .72rem;
+                font-weight: 600;
+                letter-spacing: .06em;
+                text-transform: uppercase;
+                color: var(--accent2);
+                min-height: 1em;
+            }
 
             .mobile-accroche-text {
                 font-size: .9rem;
                 color: var(--muted);
                 line-height: 1.55;
+                min-height: 1.55em;
             }
+
+            .cad-note { display: none }
             .divider { margin: 0 5vw }
         }
 
@@ -1631,7 +1642,6 @@
         <a href="#services">Services</a>
         <a href="#strip">Tarifs</a>
         <a href="#contact">Contact</a>
-        <a href="#contact" class="mob-btn">Nous contacter</a>
     </div>
 
     <!-- HERO -->
@@ -1708,8 +1718,11 @@
     <!-- SERVICES -->
     <section id="services">
         <div class="mobile-accroche">
-            <p class="tag"><span class="tag-dot"></span>SUPPORT INFORMATIQUE · QUÉBEC</p>
-            <p class="mobile-accroche-text">Support informatique pour PME, travailleurs autonomes et particuliers.</p>
+            <div class="mobile-accroche-label">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1db87a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                <span id="mob-label-type"></span>
+            </div>
+            <p class="mobile-accroche-text"><span id="mob-desc-type"></span></p>
         </div>
         <div class="s-head reveal">
             <div>
@@ -2195,7 +2208,32 @@
             window.addEventListener('resize', () => { resize(); createParticles(); });
         })();
 
-        // Tarifs tabs
+        // Mobile accroche typewriter
+        (function () {
+            const label = document.getElementById('mob-label-type');
+            const desc  = document.getElementById('mob-desc-type');
+            if (!label || !desc) return;
+            if (!window.matchMedia('(max-width: 860px)').matches) return;
+
+            const text1 = 'Support informatique · Québec';
+            const text2 = 'Support informatique pour PME, travailleurs autonomes et particuliers.';
+
+            function type(el, text, speed, done) {
+                let i = 0;
+                function tick() {
+                    el.textContent += text[i++];
+                    if (i < text.length) setTimeout(tick, speed);
+                    else if (done) setTimeout(done, 300);
+                }
+                tick();
+            }
+
+            setTimeout(() => {
+                type(label, text1, 38, () => {
+                    type(desc, text2, 22, null);
+                });
+            }, 400);
+        })();
         document.querySelectorAll('.tarifs-tab').forEach(tab => {
             tab.addEventListener('click', () => {
                 document.querySelectorAll('.tarifs-tab').forEach(t => t.classList.remove('active'));

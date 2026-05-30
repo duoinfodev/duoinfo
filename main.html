@@ -2020,24 +2020,42 @@
                             <input type="text" name="nom" placeholder="Jean Tremblay" required />
                         </div>
                         <div class="form-field">
-                            <label class="form-label">Type de service</label>
-                            <div style="position:relative">
-                                <select name="type_service" style="width:100%;padding:.75rem 2.5rem .75rem 1rem;border:1.5px solid var(--border);border-radius:var(--r-md);background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;font-size:.88rem;color:var(--ink);transition:border-color .2s,box-shadow .2s;outline:none;cursor:pointer;appearance:none;-webkit-appearance:none">
-                                    <option value="" disabled selected>Choisir...</option>
-                                    <option value="Domicile">Domicile</option>
-                                    <option value="Entreprise">Entreprise</option>
-                                </select>
-                                <svg style="position:absolute;right:.85rem;top:50%;transform:translateY(-50%);pointer-events:none;flex-shrink:0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
-                            </div>
+                            <label class="form-label">Téléphone</label>
+                            <input type="tel" name="telephone" placeholder="(514) 000-0000" />
                         </div>
                     </div>
                     <div class="form-field">
                         <label class="form-label">Courriel</label>
                         <input type="email" name="email" placeholder="vous@exemple.ca" required />
                     </div>
-                    <div class="form-field">
-                        <label class="form-label">Téléphone</label>
-                        <input type="tel" name="telephone" placeholder="(514) 000-0000" />
+                    <div class="row2">
+                        <div class="form-field">
+                            <label class="form-label">Service</label>
+                            <div style="position:relative">
+                                <select name="service" style="width:100%;padding:.75rem 2.5rem .75rem 1rem;border:1.5px solid var(--border);border-radius:var(--r-md);background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;font-size:.88rem;color:var(--ink);transition:border-color .2s,box-shadow .2s;outline:none;cursor:pointer;appearance:none;-webkit-appearance:none">
+                                    <option value="" disabled selected>Choisir...</option>
+                                    <option value="Support & dépannage">Support & dépannage</option>
+                                    <option value="Sécurité & sauvegardes">Sécurité & sauvegardes</option>
+                                    <option value="Cloud & Microsoft 365">Cloud & Microsoft 365</option>
+                                    <option value="Réseau & infrastructure">Réseau & infrastructure</option>
+                                    <option value="Consultation TI">Consultation TI</option>
+                                    <option value="Maintenance préventive">Maintenance préventive</option>
+                                    <option value="Autre">Autre</option>
+                                </select>
+                                <svg style="position:absolute;right:.85rem;top:50%;transform:translateY(-50%);pointer-events:none" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+                            </div>
+                        </div>
+                        <div class="form-field">
+                            <label class="form-label">Client</label>
+                            <div style="position:relative">
+                                <select name="client" style="width:100%;padding:.75rem 2.5rem .75rem 1rem;border:1.5px solid var(--border);border-radius:var(--r-md);background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;font-size:.88rem;color:var(--ink);transition:border-color .2s,box-shadow .2s;outline:none;cursor:pointer;appearance:none;-webkit-appearance:none">
+                                    <option value="" disabled selected>Choisir...</option>
+                                    <option value="À domicile">À domicile</option>
+                                    <option value="Entreprise">Entreprise</option>
+                                </select>
+                                <svg style="position:absolute;right:.85rem;top:50%;transform:translateY(-50%);pointer-events:none" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-field">
                         <label class="form-label">Votre besoin</label>

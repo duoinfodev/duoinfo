@@ -1753,8 +1753,8 @@
                 </div>
                 <div class="stat-divider"></div>
                 <div class="hero-stat">
-                    <div class="stat-num" id="stat-satisfaction">98<span> %</span></div>
-                    <div class="stat-label">Taux de satisfaction<br />client</div>
+                    <div class="stat-num">7j<span>/7</span></div>
+                    <div class="stat-label">Disponibilité<br />& support</div>
                 </div>
                 <div class="stat-divider"></div>
                 <div class="hero-stat">
@@ -1908,7 +1908,7 @@
                 </svg>
 
                 <div class="tarifs-col">
-                    <div class="tarifs-col-label"><span>⏱</span> Taux horaire</div>
+                    <div class="tarifs-col-label"><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1db87a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> Taux horaire</div>
                     <div class="rate-main">
                         <div class="rate-num">60</div>
                         <div class="rate-unit">$ / h</div>
@@ -1954,7 +1954,7 @@
                 </svg>
 
                 <div class="tarifs-col">
-                    <div class="tarifs-col-label"><span>⏱</span> Taux horaire</div>
+                    <div class="tarifs-col-label"><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1db87a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> Taux horaire</div>
                     <div class="rate-main">
                         <div class="rate-num">90</div>
                         <div class="rate-unit">$ / h</div>
@@ -2243,14 +2243,14 @@
             entries.forEach(e => {
                 if (e.isIntersecting) {
                     const el = e.target;
-                    if (el.id === 'stat-satisfaction') animateCounter(el, 98, '%', 1200);
+
                     if (el.id === 'stat-experience')   animateCounter(el, 5, '+', 1800);
                     counterObs.unobserve(el);
                 }
             });
         }, { threshold: .5 });
 
-        document.querySelectorAll('#stat-satisfaction, #stat-experience').forEach(el => counterObs.observe(el));
+        document.querySelectorAll('#stat-experience').forEach(el => counterObs.observe(el));
         // Hero particles
         (function () {
             const canvas = document.getElementById('hero-particles');

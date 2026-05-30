@@ -477,6 +477,10 @@
         }
 
         /* ── SERVICES ── */
+        #services, #strip, #contact {
+            scroll-margin-top: 6rem;
+        }
+
         #services {
             padding: 7rem 15vw
         }
@@ -690,6 +694,15 @@
 
         .tarifs-panel { display: none !important }
         .tarifs-panel.active { display: grid !important; grid-template-columns: 1fr 1fr }
+
+        .tarifs-svg-bg {
+            position: absolute;
+            bottom: -10px;
+            right: -10px;
+            opacity: .055;
+            pointer-events: none;
+            z-index: 0;
+        }
 
         @media(max-width:860px) {
             .tarifs-panel.active { grid-template-columns: 1fr }
@@ -1629,6 +1642,13 @@
 
             <!-- Panel Général -->
             <div class="tarifs-panel tarifs-body active" id="panel-general">
+                <svg class="tarifs-svg-bg" width="280" height="280" viewBox="0 0 24 24" fill="none" stroke="#1db87a" stroke-width=".5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="3" width="20" height="14" rx="2"/>
+                    <line x1="8" y1="21" x2="16" y2="21"/>
+                    <line x1="12" y1="17" x2="12" y2="21"/>
+                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                    <circle cx="12" cy="14" r=".4" fill="#1db87a"/>
+                </svg>
 
                 <div class="tarifs-col">
                     <div class="tarifs-col-label"><span>⏱</span> Taux horaire</div>
@@ -1667,6 +1687,14 @@
 
             <!-- Panel Sysadmin entreprise -->
             <div class="tarifs-panel tarifs-body" id="panel-sysadmin">
+                <svg class="tarifs-svg-bg" width="280" height="280" viewBox="0 0 24 24" fill="none" stroke="#1db87a" stroke-width=".5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="2" width="20" height="8" rx="2"/>
+                    <rect x="2" y="14" width="20" height="8" rx="2"/>
+                    <line x1="6" y1="6" x2="6.01" y2="6"/>
+                    <line x1="6" y1="18" x2="6.01" y2="18"/>
+                    <line x1="10" y1="6" x2="16" y2="6"/>
+                    <line x1="10" y1="18" x2="16" y2="18"/>
+                </svg>
 
                 <div class="tarifs-col">
                     <div class="tarifs-col-label"><span>⏱</span> Taux horaire</div>

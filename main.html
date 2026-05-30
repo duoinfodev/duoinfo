@@ -685,6 +685,9 @@
             background: transparent;
             transition: background .2s, color .2s, border-color .2s;
             font-family: 'Plus Jakarta Sans', sans-serif;
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
         }
 
         .tarifs-tab:hover {
@@ -1423,6 +1426,24 @@
             .hamburger { display: flex }
             .mobile-menu { display: flex }
 
+            /* Larger touch targets on mobile */
+            .tarifs-tab {
+                min-height: 48px;
+                padding: .5rem 1.2rem;
+                font-size: .8rem;
+            }
+
+            .tarifs-tabs {
+                gap: .5rem;
+                flex-wrap: wrap;
+            }
+
+            .nav-btn {
+                min-height: 44px;
+                display: inline-flex;
+                align-items: center;
+            }
+
             #hero {
                 grid-template-columns: 1fr;
                 padding: 7rem 5vw 3rem;
@@ -1641,7 +1662,7 @@
             <div class="tarifs-header">
                 <div>
                     <p class="eyebrow" style="margin-bottom:.4rem">Tarifs</p>
-                    <h2>Des prix clairs, point final</h2>
+                    <h2>Des prix clairs, point final.</h2>
                 </div>
                 <div style="display:flex;flex-direction:column;align-items:flex-end;gap:.6rem">
                     <p style="font-size:.7rem;color:rgba(255,255,255,.3);text-align:right">Tous les prix sont en CAD.</p>

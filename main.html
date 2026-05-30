@@ -1439,6 +1439,9 @@
             nav a:hover { opacity: .5 }
             nav a.logo:hover { opacity: 1 }
         }
+
+        .nav-mobile-tagline { display: none }
+
         .hamburger {
             display: none;
             flex-direction: column;
@@ -1509,6 +1512,19 @@
         @media(max-width:860px) {
             .hamburger { display: flex }
             .mobile-menu { display: flex }
+            nav ul { display: none }
+
+            .nav-mobile-tagline {
+                display: block;
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                font-size: .65rem;
+                font-weight: 500;
+                color: var(--muted);
+                white-space: nowrap;
+                pointer-events: none;
+            }
 
             #hero { display: none }
             .divider { display: none }
@@ -1555,7 +1571,7 @@
 
             .hero-stats { gap: 1.2rem }
             .trust-bar { gap: .6rem }
-            nav ul { display: none }
+
             .grid3 { grid-template-columns: 1fr }
 
             #strip { padding: 0 5vw 4rem }
@@ -1579,31 +1595,42 @@
             .hide-mobile { display: none !important; }
 
             .mobile-accroche {
-                display: flex;
-                flex-direction: column;
-                gap: .1rem;
+                display: block;
                 margin-bottom: 1.8rem;
             }
 
-            .mobile-accroche .tag { margin-bottom: 0 }
-
-            .mobile-accroche-label {
-                display: inline-flex;
+            .mobile-accroche-inner {
+                display: flex;
+                flex-direction: column;
                 align-items: center;
-                gap: .45rem;
-                font-size: .72rem;
-                font-weight: 600;
-                letter-spacing: .06em;
-                text-transform: uppercase;
-                color: var(--accent2);
+                text-align: center;
+                gap: .4rem;
+            }
+
+            .mobile-accroche-icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+                opacity: .2;
+            }
+
+            .mob-svg-bg {
+                display: block;
+            }
+
+            .mobile-accroche-title {
+                font-size: .82rem;
+                font-weight: 700;
+                color: var(--ink);
                 min-height: 1em;
             }
 
-            .mobile-accroche-text {
-                font-size: .9rem;
+            .mobile-accroche-sub {
+                font-size: .72rem;
                 color: var(--muted);
-                line-height: 1.55;
-                min-height: 1.55em;
+                margin-top: .1rem;
+                min-height: 1em;
             }
 
             .cad-note { display: none }
@@ -1717,13 +1744,6 @@
 
     <!-- SERVICES -->
     <section id="services">
-        <div class="mobile-accroche">
-            <div class="mobile-accroche-label">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1db87a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                <span id="mob-label-type"></span>
-            </div>
-            <p class="mobile-accroche-text"><span id="mob-desc-type"></span></p>
-        </div>
         <div class="s-head reveal">
             <div>
                 <p class="eyebrow">Ce qu'on fait</p>
@@ -2210,12 +2230,9 @@
         // Mobile accroche typewriter
         (function () {
             const label = document.getElementById('mob-label-type');
-            const desc  = document.getElementById('mob-desc-type');
-            if (!label || !desc) return;
-            if (!window.matchMedia('(max-width: 860px)').matches) return;
+            if (!label) return;
 
-            const text1 = 'Support informatique · Québec';
-            const text2 = 'Support informatique pour PME, travailleurs autonomes et particuliers.';
+            const text1 = 'Support informatique à domicile & en entreprise';
 
             function type(el, text, speed, done) {
                 let i = 0;
@@ -2228,9 +2245,7 @@
             }
 
             setTimeout(() => {
-                type(label, text1, 38, () => {
-                    type(desc, text2, 22, null);
-                });
+                type(label, text1, 38, null);
             }, 400);
         })();
         document.querySelectorAll('.tarifs-tab').forEach(tab => {

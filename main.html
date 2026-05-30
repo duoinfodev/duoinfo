@@ -691,6 +691,7 @@
         .tarifs-tabs {
             display: flex;
             gap: .4rem;
+            position: relative;
         }
 
         .tarifs-tab {
@@ -707,6 +708,26 @@
             min-height: 44px;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            margin-bottom: 16px;
+        }
+
+        .tarifs-tab::before {
+            content: '▲';
+            font-size: .5rem;
+            color: transparent;
+            position: absolute;
+            bottom: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: color .2s;
+            line-height: 1;
+        }
+
+        .tarifs-tab.active::before {
+            color: var(--accent3);
         }
 
         .tarifs-tab:hover {
@@ -1245,7 +1266,7 @@
             .send {
                 width: auto;
                 display: block;
-                margin-left: auto;
+                margin: 0 auto;
             }
         }
 
@@ -1453,16 +1474,32 @@
             .hamburger { display: flex }
             .mobile-menu { display: flex }
 
+            #hero { display: none }
+            .divider { display: none }
+
             /* Larger touch targets on mobile */
             .tarifs-tab {
-                min-height: 48px;
-                padding: .5rem 1.2rem;
-                font-size: .8rem;
+                min-height: 52px;
+                padding: .6rem 1.4rem;
+                font-size: .85rem;
+                flex: 1;
+                justify-content: center;
             }
 
             .tarifs-tabs {
                 gap: .5rem;
-                flex-wrap: wrap;
+                width: 100%;
+            }
+
+            .tarifs-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .tarifs-header > div:last-child {
+                width: 100%;
+                align-items: flex-start;
             }
 
             .nav-btn {
@@ -1494,13 +1531,16 @@
 
             #contact { padding: 0 5vw 4rem }
             .contact-wrap { grid-template-columns: 1fr }
+            .contact-form-card { order: 1 }
+            .contact-info { order: 2 }
 
             .s-note { text-align: left; max-width: none }
             .s-pills { justify-content: flex-start }
             .row2 { grid-template-columns: 1fr }
             .contact-card { padding: 2rem }
 
-            #services { padding: 3rem 5vw }
+            #services { padding: 5rem 5vw 3rem }
+            .hide-mobile { display: none !important; }
             .divider { margin: 0 5vw }
         }
 
@@ -1536,7 +1576,7 @@
         <a href="#services">Services</a>
         <a href="#strip">Tarifs</a>
         <a href="#contact">Contact</a>
-        <a href="#contact" class="mob-btn">Nous contacter →</a>
+        <a href="#contact" class="mob-btn">Nous contacter</a>
     </div>
 
     <!-- HERO -->
@@ -1548,9 +1588,9 @@
         <div class="hero-copy">
             <p class="tag"><span class="tag-dot"></span>RIVE-NORD · LAVAL · MONTRÉAL</p>
             <h1>L'informatique<br />simple, rapide &amp;<br /><span>sans jargon</span></h1>
-            <p class="sub">Support informatique pour PME, travailleurs autonomes et particuliers. On règle vos problèmes — avec un service simple et sans tracas.</p>
+            <p class="sub">Support informatique pour PME, travailleurs autonomes et particuliers.</p>
             <div class="ctas">
-                <a href="#contact" class="btn-p">Nous contacter →</a>
+                <a href="#contact" class="btn-p">Nous contacter</a>
                 
             </div>
 
@@ -1661,7 +1701,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card hide-mobile">
                 <div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1db87a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg></div>
                 <div class="card-body">
                     <h3>Consultation TI</h3>
@@ -1882,8 +1922,7 @@
 
     <footer>
         <div class="f-logo">duo<span>info</span></div>
-        <small>© 2026 duoinfo Consultation TI · Québec</small>
-        <small>info@duoinfo.ca · (514) 000-0000</small>
+        <small>© 2026 duoinfo · Québec</small>
     </footer>
 
 

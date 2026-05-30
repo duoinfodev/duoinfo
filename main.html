@@ -1290,7 +1290,12 @@
 
         input:focus,
         textarea:focus,
-        select:focus {
+        select.select-filled {
+            border-color: var(--accent) !important;
+            background: rgba(29,184,122,.05) !important;
+            color: var(--ink) !important;
+            box-shadow: 0 0 0 3px rgba(29,184,122,.1) !important;
+        }
             border-color: var(--accent);
             box-shadow: 0 0 0 3px rgba(29,184,122,.1);
             background: var(--card);
@@ -2328,7 +2333,11 @@
             card.addEventListener('click', () => {
                 const service = card.dataset.service;
                 const select = document.querySelector('select[name="service"]');
-                if (select) select.value = service;
+                if (select) {
+                    select.value = service;
+                    select.classList.add('select-filled');
+                    select.dispatchEvent(new Event('change'));
+                }
                 const contact = document.getElementById('contact');
                 if (contact) contact.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });

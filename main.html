@@ -5,6 +5,24 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Support informatique pour PME et travailleurs autonomes — Rive-Nord, Laval et Montréal. Dépannage, sécurité, cloud et consultation TI. Réponse en moins de 4h." />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://duoinfo.ca" />
+    <meta property="og:title" content="Duoinfo — Support informatique · Rive-Nord, Laval, Montréal" />
+    <meta property="og:description" content="Support informatique pour PME et travailleurs autonomes. Dépannage, sécurité, cloud et consultation TI. Réponse en moins de 4h. Première consultation gratuite." />
+    <meta property="og:locale" content="fr_CA" />
+
+    <!-- Twitter / X Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Duoinfo — Support informatique" />
+    <meta name="twitter:description" content="Support informatique pour PME et particuliers — Rive-Nord, Laval, Montréal. Réponse en moins de 4h." />
+
+    <!-- Mobile / PWA -->
+    <meta name="theme-color" content="#0f1a14" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Duoinfo" />
+
     <title>Duoinfo</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -1211,7 +1229,7 @@
             color: #fff;
             border: none;
             cursor: pointer;
-            padding: .9rem 2rem;
+            padding: .85rem 2.5rem;
             border-radius: var(--r-md);
             font-family: 'Plus Jakarta Sans', sans-serif;
             font-size: .9rem;
@@ -1221,6 +1239,14 @@
             margin-top: .25rem;
             position: relative;
             overflow: hidden;
+        }
+
+        @media(min-width:861px) {
+            .send {
+                width: auto;
+                display: block;
+                margin-left: auto;
+            }
         }
 
         .send::after {

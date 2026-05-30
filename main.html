@@ -7,7 +7,9 @@
     <meta name="description" content="Support informatique pour PME et travailleurs autonomes — Rive-Nord, Laval et Montréal. Dépannage, sécurité, cloud et consultation TI. Réponse en moins de 4h." />
     <title>Duoinfo</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://formspree.io" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
     <style>
         *,
         *::before,
@@ -331,20 +333,18 @@
         }
 
         .btn-p {
-            background: linear-gradient(135deg, var(--accent), var(--accent2), #0fd48a, var(--accent));
-            background-size: 250% 250%;
+            background: var(--accent);
             color: #fff;
             text-decoration: none;
-            padding: .85rem 1.8rem;
+            padding: .6rem 1.3rem;
             border-radius: 999px;
             font-weight: 600;
-            font-size: .9rem;
-            box-shadow: 0 6px 28px rgba(29, 184, 122, .35);
-            transition: transform .15s, box-shadow .15s;
+            font-size: .82rem;
+            box-shadow: 0 4px 18px rgba(29, 184, 122, .3);
+            transition: transform .15s, box-shadow .15s, background .2s;
             display: inline-flex;
             align-items: center;
-            gap: .45rem;
-            animation: gradientShift 4s ease infinite;
+            gap: .4rem;
         }
 
         @keyframes gradientShift {
@@ -355,28 +355,22 @@
 
         .btn-p:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 36px rgba(29, 184, 122, .45)
+            box-shadow: 0 8px 26px rgba(29, 184, 122, .4)
         }
 
         .btn-o {
             color: var(--ink);
             text-decoration: none;
-            padding: .85rem 1.8rem;
-            border: 1.5px solid var(--border);
-            border-radius: 999px;
-            font-size: .9rem;
+            font-size: .82rem;
             font-weight: 500;
-            background: var(--card);
-            transition: border-color .2s, box-shadow .2s;
             display: inline-flex;
             align-items: center;
-            gap: .45rem;
+            gap: .35rem;
+            opacity: .45;
+            transition: opacity .2s;
         }
 
-        .btn-o:hover {
-            border-color: var(--accent);
-            box-shadow: 0 4px 16px rgba(29, 184, 122, .12)
-        }
+        .btn-o:hover { opacity: 1 }
 
         /* ── TERMINAL ── */
         .hero-terminal {
@@ -484,7 +478,7 @@
 
         /* ── SERVICES ── */
         #services {
-            padding: 5.5rem 15vw
+            padding: 7rem 15vw
         }
 
         .s-head {
@@ -703,7 +697,7 @@
 
         /* ── TARIFS ── */
         #strip {
-            padding: 0 15vw 5.5rem
+            padding: 2rem 15vw 7rem
         }
 
         .tarifs-wrap {
@@ -1001,7 +995,7 @@
 
         /* ── CONTACT ── */
         #contact {
-            padding: 0 15vw 5.5rem
+            padding: 2rem 15vw 7rem
         }
 
         .contact-wrap {
@@ -1484,7 +1478,7 @@
             <p class="sub">Support informatique pour PME, travailleurs autonomes et particuliers. On règle vos problèmes — avec un service simple et sans tracas.</p>
             <div class="ctas">
                 <a href="#contact" class="btn-p">Nous contacter →</a>
-                <a href="#services" class="btn-o">Découvrir les services</a>
+                
             </div>
 
             <!-- Stats -->

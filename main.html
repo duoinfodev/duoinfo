@@ -1008,7 +1008,7 @@
             display: grid;
             grid-template-columns: 1fr 1.4fr;
             gap: 2rem;
-            align-items: start;
+            align-items: stretch;
         }
 
         /* left panel */
@@ -1785,9 +1785,9 @@
                         <label class="form-label">Votre besoin</label>
                         <textarea name="message" placeholder="Décrivez votre problème ou ce que vous cherchez…" required></textarea>
                     </div>
-                    <button type="submit" class="send" id="send-btn">Envoyer la demande →</button>
+                    <button type="submit" class="send" id="send-btn">Envoyer ma demande</button>
                     <div id="form-success" style="display:none;background:rgba(29,184,122,.1);border:1px solid rgba(29,184,122,.25);border-radius:var(--r-md);padding:.75rem 1rem;font-size:.82rem;color:var(--accent3);font-weight:600;text-align:center;">
-                        ✓ Message envoyé — on vous répond dans les 24h !
+                        ✓ Message envoyé — on vous répond dans les 24h
                     </div>
                     <div id="form-error" style="display:none;background:rgba(255,92,58,.08);border:1px solid rgba(255,92,58,.2);border-radius:var(--r-md);padding:.75rem 1rem;font-size:.82rem;color:var(--pop);text-align:center;">
                         Une erreur est survenue. Veuillez réessayer ou écrire à info@duoinfo.ca

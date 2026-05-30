@@ -125,8 +125,10 @@
             transition: opacity .2s
         }
 
-        nav a:hover {
-            opacity: 1
+        nav a:hover { opacity: 1 }
+
+        nav a.logo {
+            opacity: 1;
         }
 
         .nav-btn {
@@ -544,8 +546,8 @@
 
         .grid3 {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.1rem
+            grid-template-columns: 1fr 1fr;
+            gap: .75rem
         }
 
         /* ── SERVICE CARDS ── */
@@ -555,15 +557,17 @@
             background: var(--card);
             border: 1px solid var(--border);
             border-radius: var(--r-lg);
-            padding: 1.7rem;
+            padding: 1.2rem 1.4rem;
             cursor: default;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
             box-shadow:
                 0 1px 2px rgba(15, 26, 20, .08),
                 0 4px 12px rgba(15, 26, 20, .07);
             transition: border-color .3s, box-shadow .3s, transform .3s;
         }
 
-        /* sheen — thin light streak at top edge */
         .card::before {
             content: '';
             position: absolute;
@@ -576,7 +580,7 @@
 
         .card:hover {
             border-color: rgba(29, 184, 122, .55);
-            transform: translateY(-3px);
+            transform: translateY(-2px);
             box-shadow:
                 0 2px 4px rgba(15, 26, 20, .08),
                 0 8px 24px rgba(15, 26, 20, .1),
@@ -584,22 +588,17 @@
                 0 0 18px rgba(29, 184, 122, .12);
         }
 
-        /* result badge — hidden by default, fades in on hover */
-        .card-overlay {
-            display: none;
-        }
+        .card-overlay { display: none }
 
-        /* default face */
         .card-icon {
-            width: 42px;
-            height: 42px;
+            width: 40px;
+            height: 40px;
             border-radius: var(--r-sm);
             background: rgba(29, 184, 122, .1);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.15rem;
-            margin-bottom: 1rem;
+            flex-shrink: 0;
             transition: background .3s, transform .3s;
         }
 
@@ -608,23 +607,31 @@
             transform: scale(1.08);
         }
 
-        .card > h3 {
-            font-weight: 700;
-            font-size: .97rem;
-            letter-spacing: -.01em;
-            margin-bottom: .35rem;
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            gap: .2rem;
+            flex: 1;
         }
 
-        .card > p {
-            font-size: .8rem;
+        .card > h3 { display: none }
+        .card > p  { display: none }
+
+        .card-body h3 {
+            font-weight: 700;
+            font-size: .9rem;
+            letter-spacing: -.01em;
+            color: var(--ink);
+        }
+
+        .card-body p {
+            font-size: .78rem;
             color: var(--muted);
-            line-height: 1.6;
+            line-height: 1.55;
             transition: color .3s;
         }
 
-        .card:hover > p {
-            color: var(--ink);
-        }
+        .card:hover .card-body p { color: var(--ink) }
 
         .card-result {
             display: inline-flex;
@@ -633,13 +640,13 @@
             background: rgba(29,184,122,.1);
             border: 1px solid rgba(29,184,122,.2);
             border-radius: 999px;
-            padding: .26rem .7rem;
-            font-size: .68rem;
+            padding: .2rem .6rem;
+            font-size: .65rem;
             font-weight: 700;
             color: var(--accent3);
             letter-spacing: .03em;
             width: fit-content;
-            margin-top: .9rem;
+            margin-top: .35rem;
             opacity: 0;
             transform: translateY(4px);
             transition: opacity .25s ease, transform .25s ease;
@@ -1410,7 +1417,7 @@
             .hero-stats { gap: 1.2rem }
             .trust-bar { gap: .6rem }
             nav ul { display: none }
-            .grid3 { grid-template-columns: 1fr 1fr }
+            .grid3 { grid-template-columns: 1fr }
 
             #strip { padding: 0 5vw 4rem }
             .tarifs-body { grid-template-columns: 1fr }
@@ -1500,9 +1507,7 @@
 
             <!-- Trust badges -->
             <div class="trust-bar">
-                <div class="trust-item"><span class="trust-icon g">✓</span> Microsoft 365 Partenaire</div>
-                <div class="trust-item"><span class="trust-icon o">🔒</span> Données 100% au Québec</div>
-                <div class="trust-item"><span class="trust-icon b">⚡</span> Sans engagement</div>
+                <div class="trust-item"><span class="trust-icon g">✓</span>Service bilingue</div>
             </div>
         </div>
         <div class="hero-terminal">
@@ -1554,45 +1559,57 @@
         <div class="grid3 reveal">
 
             <div class="card">
-                <div class="card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1db87a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
-                <h3>Support &amp; dépannage</h3>
-                <p>En personne, à distance ou au téléphone. Réponse rapide, solution concrète.</p>
-                <span class="card-result">Réponse en moins de 4h</span>
+                <div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1db87a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
+                <div class="card-body">
+                    <h3>Support &amp; dépannage</h3>
+                    <p>En personne, à distance ou au téléphone.</p>
+                    <span class="card-result">Réponse en moins de 4h</span>
+                </div>
             </div>
 
             <div class="card">
-                <div class="card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1db87a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
-                <h3>Sécurité &amp; sauvegardes</h3>
-                <p>Protection contre les cybermenaces et sauvegardes automatisées.</p>
-                <span class="card-result">Sauvegarde testée chaque semaine</span>
+                <div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1db87a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+                <div class="card-body">
+                    <h3>Sécurité &amp; sauvegardes</h3>
+                    <p>Protection cybermenaces et sauvegardes automatisées.</p>
+                    <span class="card-result">Sauvegarde testée chaque semaine</span>
+                </div>
             </div>
 
             <div class="card">
-                <div class="card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1db87a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg></div>
-                <h3>Cloud &amp; Microsoft 365</h3>
-                <p>Migration, configuration et gestion de Teams, SharePoint et OneDrive.</p>
-                <span class="card-result">Migration sans interruption</span>
+                <div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1db87a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg></div>
+                <div class="card-body">
+                    <h3>Cloud &amp; Microsoft 365</h3>
+                    <p>Migration Teams, SharePoint et OneDrive.</p>
+                    <span class="card-result">Migration sans interruption</span>
+                </div>
             </div>
 
             <div class="card">
-                <div class="card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1db87a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1" fill="#1db87a"/></svg></div>
-                <h3>Réseau &amp; infrastructure</h3>
-                <p>Wi-Fi, routeurs, NAS, imprimantes — installation et optimisation.</p>
-                <span class="card-result">Réseau stable, cartographié</span>
+                <div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1db87a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1" fill="#1db87a"/></svg></div>
+                <div class="card-body">
+                    <h3>Réseau &amp; infrastructure</h3>
+                    <p>Wi-Fi, routeurs, NAS, imprimantes.</p>
+                    <span class="card-result">Réseau stable, cartographié</span>
+                </div>
             </div>
 
             <div class="card">
-                <div class="card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1db87a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg></div>
-                <h3>Consultation TI</h3>
-                <p>Conseils stratégiques et planification technologique adaptés à votre budget.</p>
-                <span class="card-result">Plan TI sur mesure</span>
+                <div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1db87a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg></div>
+                <div class="card-body">
+                    <h3>Consultation TI</h3>
+                    <p>Conseils stratégiques adaptés à votre budget.</p>
+                    <span class="card-result">Plan TI sur mesure</span>
+                </div>
             </div>
 
             <div class="card">
-                <div class="card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1db87a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg></div>
-                <h3>Maintenance préventive</h3>
-                <p>Mises à jour, monitoring et rapports réguliers — avant que ça brise.</p>
-                <span class="card-result">Monitoring 24/7 inclus</span>
+                <div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1db87a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg></div>
+                <div class="card-body">
+                    <h3>Maintenance préventive</h3>
+                    <p>Mises à jour et monitoring réguliers.</p>
+                    <span class="card-result">Monitoring 24/7 inclus</span>
+                </div>
             </div>
 
         </div>

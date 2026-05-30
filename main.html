@@ -430,20 +430,20 @@
 
         .t-body {
             padding: 1.6rem 1.6rem 2rem;
-            font-family: 'IBM Plex Mono', monospace
+            font-family: 'IBM Plex Mono', monospace;
+            height: 420px;
+            overflow: hidden;
         }
 
         .t-line {
             font-size: .78rem;
             line-height: 1.95;
             opacity: 0;
-            transform: translateY(4px);
-            transition: opacity .25s ease, transform .25s ease
+            min-height: 1.2em;
         }
 
         .t-line.show {
             opacity: 1;
-            transform: translateY(0)
         }
 
         .t-prompt {
@@ -1810,9 +1810,84 @@
             });
         });
 
-        // Terminal typewriter
-        const lines = document.querySelectorAll('#tBody .t-line');
-        lines.forEach((l, i) => setTimeout(() => l.classList.add('show'), 300 + i * 130));
+        // Terminal — vrai typewriter lettre par lettre
+        (function () {
+            const tBody = document.getElementById('tBody');
+            if (!tBody) return;
+
+            const lines = Array.from(tBody.querySelectorAll('.t-line'));
+
+            // Délai entre lignes (ms)
+            //                      $ cmd  ────   Réseau  ✓con  ✓fw   Stockage ✓save  !disk  Sécu   ✓av   ✓maj  ────   Système  $ _
+            const pauseAfter = [800, 400,  1200,  0,     0,    1200,  0,     0,     1200,  0,    0,    400,  600,   0];
+            const charSpeed  = [45,  0,    0,     38,    38,   0,     38,    38,    0,     38,   38,   0,    32,    0];
+
+            // Sauvegarder le contenu original et vider les lignes
+            const originals = lines.map(l => {
+                const html = l.innerHTML;
+                l.innerHTML = '';
+                return html;
+            });
+
+            function typeSpans(line, html, speed, done) {
+                line.classList.add('show');
+                if (speed === 0) { line.innerHTML = html; done(); return; }
+
+                // Parser les spans
+                const tmp = document.createElement('div');
+                tmp.innerHTML = html;
+                const nodes = Array.from(tmp.childNodes);
+
+                let nodeIdx = 0;
+                let charIdx = 0;
+                const rendered = []; // spans déjà complétés
+
+                function tick() {
+                    if (nodeIdx >= nodes.length) { line.innerHTML = html; done(); return; }
+
+                    const node = nodes[nodeIdx];
+
+                    if (node.nodeType === 3) {
+                        // Noeud texte pur
+                        const text = node.textContent;
+                        if (charIdx <= text.length) {
+                            const partial = text.substring(0, charIdx);
+                            line.innerHTML = rendered.join('') + partial;
+                            charIdx++;
+                            if (charIdx > text.length) { rendered.push(partial); nodeIdx++; charIdx = 0; }
+                            setTimeout(tick, speed);
+                        }
+                    } else {
+                        // Span — taper son contenu texte
+                        const tag = node.tagName;
+                        const cls = node.className;
+                        const text = node.textContent;
+                        if (charIdx <= text.length) {
+                            const partial = `<${tag} class="${cls}">${text.substring(0, charIdx)}</${tag}>`;
+                            line.innerHTML = rendered.join('') + partial;
+                            charIdx++;
+                            if (charIdx > text.length) {
+                                rendered.push(`<${tag} class="${cls}">${text}</${tag}>`);
+                                nodeIdx++; charIdx = 0;
+                            }
+                            setTimeout(tick, speed);
+                        }
+                    }
+                }
+                tick();
+            }
+
+            function runLine(i) {
+                if (i >= lines.length) return;
+                const pause = pauseAfter[i] ?? 200;
+                const speed = charSpeed[i] ?? 28;
+                typeSpans(lines[i], originals[i], speed, () => {
+                    setTimeout(() => runLine(i + 1), pause);
+                });
+            }
+
+            setTimeout(() => runLine(0), 700);
+        })();
 
         // Scroll reveals
         const obs = new IntersectionObserver(e => e.forEach(x => {

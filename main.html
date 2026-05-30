@@ -183,7 +183,13 @@
             mask-image: radial-gradient(ellipse 80% 80% at 65% 45%, black 20%, transparent 100%);
         }
 
-        /* hero line accent */
+        /* ── PARTICLES ── */
+        #hero-particles {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
         .hero-line {
             position: absolute;
             top: 0; left: 0; right: 0;
@@ -702,6 +708,12 @@
             opacity: .055;
             pointer-events: none;
             z-index: 0;
+            transition: transform .6s cubic-bezier(.22, 1, .36, 1), opacity .4s ease;
+        }
+
+        .tarifs-panel:hover .tarifs-svg-bg {
+            transform: translate(-10px, -10px) scale(1.05);
+            opacity: .1;
         }
 
         @media(max-width:860px) {
@@ -1224,7 +1236,6 @@
             .contact-wrap { grid-template-columns: 1fr }
         }
 
-        /* ── FOOTER ── */
         footer {
             padding: 1.5rem 6vw;
             border-top: 1px solid var(--border);
@@ -1483,6 +1494,7 @@
     <!-- HERO -->
     <section id="hero">
         <div class="hero-line"></div>
+        <canvas id="hero-particles"></canvas>
         <div class="hero-glow"></div>
         <div class="hero-dots"></div>
         <div class="hero-copy">
@@ -1629,7 +1641,7 @@
             <div class="tarifs-header">
                 <div>
                     <p class="eyebrow" style="margin-bottom:.4rem">Tarifs</p>
-                    <h2>Des prix clairs, point final.</h2>
+                    <h2>Des prix clairs, point final</h2>
                 </div>
                 <div style="display:flex;flex-direction:column;align-items:flex-end;gap:.6rem">
                     <p style="font-size:.7rem;color:rgba(255,255,255,.3);text-align:right">Tous les prix sont en CAD.</p>
@@ -1826,6 +1838,7 @@
         <small>info@duoinfo.ca · (514) 000-0000</small>
     </footer>
 
+
     <script>
         // Service cards — touch toggle for mobile
         document.querySelectorAll('.card').forEach(card => {
@@ -1980,6 +1993,62 @@
         }, { threshold: .5 });
 
         document.querySelectorAll('#stat-satisfaction, #stat-experience').forEach(el => counterObs.observe(el));
+        // Hero particles
+        (function () {
+            const canvas = document.getElementById('hero-particles');
+            if (!canvas) return;
+            // Skip on mobile — save battery
+            if (window.matchMedia('(max-width: 860px)').matches) return;
+            const ctx = canvas.getContext('2d');
+            let W, H, particles, animId, active = true;
+
+            function resize() {
+                W = canvas.width = canvas.offsetWidth;
+                H = canvas.height = canvas.offsetHeight;
+            }
+
+            function createParticles() {
+                particles = Array.from({ length: 28 }, () => ({
+                    x: Math.random() * W,
+                    y: Math.random() * H,
+                    r: Math.random() * 1.8 + .6,
+                    dx: (Math.random() - .5) * .18,
+                    dy: (Math.random() - .5) * .18,
+                    o: Math.random() * .18 + .04
+                }));
+            }
+
+            function draw() {
+                if (!active) return;
+                ctx.clearRect(0, 0, W, H);
+                particles.forEach(p => {
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(29,184,122,${p.o})`;
+                    ctx.fill();
+                    p.x += p.dx;
+                    p.y += p.dy;
+                    if (p.x < 0) p.x = W;
+                    if (p.x > W) p.x = 0;
+                    if (p.y < 0) p.y = H;
+                    if (p.y > H) p.y = 0;
+                });
+                animId = requestAnimationFrame(draw);
+            }
+
+            // Pause when hero scrolls out of view
+            const heroObs = new IntersectionObserver(entries => {
+                active = entries[0].isIntersecting;
+                if (active) draw();
+            }, { threshold: 0 });
+            heroObs.observe(document.getElementById('hero'));
+
+            resize();
+            createParticles();
+            draw();
+            window.addEventListener('resize', () => { resize(); createParticles(); });
+        })();
+
         // Tarifs tabs
         document.querySelectorAll('.tarifs-tab').forEach(tab => {
             tab.addEventListener('click', () => {
@@ -2022,7 +2091,7 @@
                 e.preventDefault();
                 const btn = document.getElementById('send-btn');
                 const success = document.getElementById('form-success');
-                const error = document.getElementById('form-error');
+                const errorEl = document.getElementById('form-error');
                 btn.textContent = 'Envoi en cours…';
                 btn.disabled = true;
                 try {
@@ -2033,15 +2102,12 @@
                     });
                     if (res.ok) {
                         success.style.display = 'block';
-                        error.style.display = 'none';
+                        errorEl.style.display = 'none';
                         contactForm.reset();
                         btn.textContent = 'Envoyé ✓';
-                    } else {
-                        throw new Error();
-                    }
+                    } else { throw new Error(); }
                 } catch {
-                    error.style.display = 'block';
-                    success.style.display = 'none';
+                    errorEl.style.display = 'block';
                     btn.textContent = 'Envoyer la demande →';
                     btn.disabled = false;
                 }

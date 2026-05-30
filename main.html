@@ -2060,17 +2060,6 @@
 
 
     <script>
-        // Service cards — touch toggle for mobile
-        document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('click', () => {
-                if (window.matchMedia('(hover: none)').matches) {
-                    card.classList.toggle('tapped');
-                    const overlay = card.querySelector('.card-overlay');
-                    overlay.style.transform = card.classList.contains('tapped') ? 'translateY(0)' : '';
-                }
-            });
-        });
-
         // Terminal — vrai typewriter lettre par lettre
         (function () {
             const tBody = document.getElementById('tBody');

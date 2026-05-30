@@ -1677,7 +1677,7 @@
                 <div class="tarifs-col">
                     <div class="tarifs-col-label"><span>⏱</span> Taux horaire</div>
                     <div class="rate-main">
-                        <div class="rate-num" style="color:rgba(255,255,255,.3);font-style:italic">XX</div>
+                        <div class="rate-num">110</div>
                         <div class="rate-unit">$ / h</div>
                     </div>
                     <p class="rate-note">Administration système pour entreprises. Serveurs, Active Directory, GPO, gestion de parc.</p>
@@ -1762,27 +1762,37 @@
             <!-- Right: form -->
             <div class="contact-form-card">
                 <p class="eyebrow" style="margin-bottom:.8rem">Formulaire</p>
-                <div class="form">
+                <form class="form" id="contact-form" action="https://formspree.io/f/mjgzzpgk" method="POST">
                     <div class="row2">
                         <div class="form-field">
                             <label class="form-label">Votre nom</label>
-                            <input type="text" placeholder="Jean Tremblay" />
+                            <input type="text" name="nom" placeholder="Jean Tremblay" required />
                         </div>
                         <div class="form-field">
                             <label class="form-label">Entreprise</label>
-                            <input type="text" placeholder="Votre compagnie inc." />
+                            <input type="text" name="entreprise" placeholder="Votre compagnie inc." />
                         </div>
                     </div>
                     <div class="form-field">
                         <label class="form-label">Courriel</label>
-                        <input type="email" placeholder="vous@exemple.ca" />
+                        <input type="email" name="email" placeholder="vous@exemple.ca" required />
+                    </div>
+                    <div class="form-field">
+                        <label class="form-label">Téléphone</label>
+                        <input type="tel" name="telephone" placeholder="(514) 000-0000" />
                     </div>
                     <div class="form-field">
                         <label class="form-label">Votre besoin</label>
-                        <textarea placeholder="Décrivez votre problème ou ce que vous cherchez…"></textarea>
+                        <textarea name="message" placeholder="Décrivez votre problème ou ce que vous cherchez…" required></textarea>
                     </div>
-                    <button class="send">Envoyer la demande →</button>
-                </div>
+                    <button type="submit" class="send" id="send-btn">Envoyer la demande →</button>
+                    <div id="form-success" style="display:none;background:rgba(29,184,122,.1);border:1px solid rgba(29,184,122,.25);border-radius:var(--r-md);padding:.75rem 1rem;font-size:.82rem;color:var(--accent3);font-weight:600;text-align:center;">
+                        ✓ Message envoyé — on vous répond dans les 24h !
+                    </div>
+                    <div id="form-error" style="display:none;background:rgba(255,92,58,.08);border:1px solid rgba(255,92,58,.2);border-radius:var(--r-md);padding:.75rem 1rem;font-size:.82rem;color:var(--pop);text-align:center;">
+                        Une erreur est survenue. Veuillez réessayer ou écrire à info@duoinfo.ca
+                    </div>
+                </form>
             </div>
 
         </div>
@@ -1908,6 +1918,38 @@
                 setTimeout(() => mobileMenu.style.display = 'none', 250);
             });
         });
+        // Formspree form submission
+        const contactForm = document.getElementById('contact-form');
+        if (contactForm) {
+            contactForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const btn = document.getElementById('send-btn');
+                const success = document.getElementById('form-success');
+                const error = document.getElementById('form-error');
+                btn.textContent = 'Envoi en cours…';
+                btn.disabled = true;
+                try {
+                    const res = await fetch(contactForm.action, {
+                        method: 'POST',
+                        body: new FormData(contactForm),
+                        headers: { 'Accept': 'application/json' }
+                    });
+                    if (res.ok) {
+                        success.style.display = 'block';
+                        error.style.display = 'none';
+                        contactForm.reset();
+                        btn.textContent = 'Envoyé ✓';
+                    } else {
+                        throw new Error();
+                    }
+                } catch {
+                    error.style.display = 'block';
+                    success.style.display = 'none';
+                    btn.textContent = 'Envoyer la demande →';
+                    btn.disabled = false;
+                }
+            });
+        }
     </script>
 </body>
 

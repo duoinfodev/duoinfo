@@ -2180,8 +2180,13 @@
                         <textarea name="message" placeholder="Décrivez votre problème ou ce que vous cherchez…" required></textarea>
                     </div>
                     <button type="submit" class="send" id="send-btn">Envoyer ma demande</button>
-                    <div id="form-success" style="display:none;background:rgba(29,184,122,.1);border:1px solid rgba(29,184,122,.25);border-radius:var(--r-md);padding:.75rem 1rem;font-size:.82rem;color:var(--accent3);font-weight:600;text-align:center;">
-                        Demande envoyée
+                    <div id="form-success" style="display:none;text-align:center;padding:.75rem 0">
+                        <svg id="success-svg" width="52" height="52" viewBox="0 0 52 52" style="display:block;margin:0 auto 8px">
+                            <circle cx="26" cy="26" r="24" fill="none" stroke="#1db87a" stroke-width="2.5" stroke-dasharray="151" stroke-dashoffset="151" style="transition:stroke-dashoffset .6s ease"/>
+                            <polyline points="14,27 22,35 38,18" fill="none" stroke="#1db87a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="34" stroke-dashoffset="34" style="transition:stroke-dashoffset .4s .5s ease"/>
+                        </svg>
+                        <p style="color:#1db87a;font-weight:600;font-size:.88rem;margin:0">Message envoyé!</p>
+                        <p style="color:var(--muted);font-size:.75rem;margin:4px 0 0">On vous répond dans les 24h</p>
                     </div>
                     <div id="form-error" style="display:none;background:rgba(255,92,58,.08);border:1px solid rgba(255,92,58,.2);border-radius:var(--r-md);padding:.75rem 1rem;font-size:.82rem;color:var(--pop);text-align:center;">
                         Une erreur est survenue. Veuillez réessayer ou écrire à info@duoinfo.ca
@@ -2645,10 +2650,35 @@
                         headers: { 'Accept': 'application/json' }
                     });
                     if (res.ok) {
-                        success.style.display = 'block';
-                        errorEl.style.display = 'none';
                         contactForm.reset();
-                        sendBtn.textContent = 'Envoyé ✓';
+                        sendBtn.style.transition = 'opacity .4s ease';
+                        sendBtn.style.opacity = '0';
+                        setTimeout(() => { sendBtn.style.display = 'none'; }, 400);
+                        const success = document.getElementById('form-success');
+                        success.style.display = 'block';
+                        success.style.opacity = '0';
+                        success.style.transition = 'opacity .4s ease';
+                        setTimeout(() => { success.style.opacity = '1'; }, 50);
+                        setTimeout(() => {
+                            const circle = success.querySelector('circle');
+                            const poly = success.querySelector('polyline');
+                            circle.style.strokeDashoffset = '0';
+                            poly.style.strokeDashoffset = '0';
+                        }, 100);
+                        // Fade out after 5s and restore button
+                        setTimeout(() => {
+                            success.style.opacity = '0';
+                            setTimeout(() => {
+                                success.style.display = 'none';
+                                sendBtn.style.display = '';
+                                sendBtn.style.opacity = '0';
+                                sendBtn.disabled = false;
+                                setTimeout(() => { sendBtn.style.opacity = '1'; }, 50);
+                                // Reset SVG for next time
+                                success.querySelector('circle').style.strokeDashoffset = '151';
+                                success.querySelector('polyline').style.strokeDashoffset = '34';
+                            }, 500);
+                        }, 5000);
                     } else { throw new Error(); }
                 } catch {
                     errorEl.style.display = 'block';

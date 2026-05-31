@@ -647,17 +647,29 @@
                 height: 100svh; overflow: hidden; position: relative;
             }
             .how-step {
-                min-height: 100svh; padding: 3rem 2.5rem;
+                min-height: 100svh; padding: 3rem 2.5rem 5rem;
                 justify-content: center; gap: 0; flex-shrink: 0; background: var(--bg);
                 position: absolute; inset: 0;
-                transition: opacity .5s ease, transform .5s cubic-bezier(.22,1,.36,1);
-                opacity: 0; transform: translateY(60px); pointer-events: none;
+                opacity: 0;
+                transform: translateX(100%);
+                transition: opacity .45s cubic-bezier(.4,0,.2,1), transform .45s cubic-bezier(.4,0,.2,1);
+                pointer-events: none;
+                will-change: transform, opacity;
             }
             .how-step.how-active {
-                opacity: 1; transform: translateY(0); pointer-events: auto;
+                opacity: 1; transform: translateX(0); pointer-events: auto;
             }
-            .how-step.how-exit {
-                opacity: 0; transform: translateY(-60px);
+            .how-step.how-exit-left {
+                opacity: 0; transform: translateX(-100%);
+            }
+            .how-step.how-exit-right {
+                opacity: 0; transform: translateX(100%);
+            }
+            .how-step.how-enter-left {
+                transform: translateX(-100%); opacity: 0;
+            }
+            .how-step.how-enter-right {
+                transform: translateX(100%); opacity: 0;
             }
             .how-step h3 { font-size: 1.6rem; letter-spacing: -.03em; line-height: 1.1; margin-bottom: .75rem; }
             .how-step p { font-size: .88rem; margin-bottom: 1.2rem; }
@@ -670,8 +682,6 @@
             .how-dot.active { background: #1db87a; width: 18px; border-radius: 3px; }
             .how-progress { display: none; }
             .how-step-bg { display: block; position: absolute; bottom: -15px; right: 10px; font-size: 8rem; font-weight: 900; color: rgba(29,184,122,.05); line-height: 1; font-family: monospace; pointer-events: none; user-select: none; }
-            .how-step.how-exit-left { opacity: 0 !important; transform: translateX(-60px) !important; }
-            .how-step.how-exit-right { opacity: 0 !important; transform: translateX(60px) !important; }
             .how-connector { display: none; }
         }
 
@@ -2650,30 +2660,30 @@
                 const prev = steps[current];
                 const next = steps[idx];
 
-                // Exit current — slide left or right
-                prev.classList.remove('how-active');
-                prev.classList.add(dir > 0 ? 'how-exit-left' : 'how-exit-right');
+                // Position next off-screen
+                next.classList.remove('how-active', 'how-exit-left', 'how-exit-right');
+                next.classList.add(dir > 0 ? 'how-enter-right' : 'how-enter-left');
+                next.style.transition = 'none';
 
-                // Enter next from opposite side
-                next.style.transform = dir > 0 ? 'translateX(60px)' : 'translateX(-60px)';
-                next.style.opacity = '0';
-                next.classList.add('how-active');
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        // Restore transition
+                        next.style.transition = '';
+                        // Exit prev
+                        prev.classList.remove('how-active');
+                        prev.classList.add(dir > 0 ? 'how-exit-left' : 'how-exit-right');
+                        // Enter next
+                        next.classList.remove('how-enter-left', 'how-enter-right');
+                        next.classList.add('how-active');
 
-                setTimeout(() => {
-                    next.style.transform = 'translateX(0)';
-                    next.style.opacity = '1';
-                }, 30);
-
-                setTimeout(() => {
-                    prev.classList.remove('how-exit-left', 'how-exit-right');
-                    prev.style.transform = '';
-                    prev.style.opacity = '';
-                    animating = false;
-                }, 520);
+                        setTimeout(() => {
+                            prev.classList.remove('how-exit-left', 'how-exit-right');
+                            animating = false;
+                        }, 480);
+                    });
+                });
 
                 current = idx;
-
-                // Update dots on all steps
                 steps.forEach(s => {
                     s.querySelectorAll('.how-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
                 });

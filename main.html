@@ -2491,19 +2491,13 @@
         });
         document.querySelectorAll('.reveal').forEach(r => obs.observe(r));
 
-        // Mouse-follow orb
+        // Mouse-follow orb — desktop only
         const orb = document.getElementById('orb');
-        let mx = window.innerWidth / 2,
-            my = window.innerHeight / 2;
-        document.addEventListener('mousemove', e => {
-            mx = e.clientX;
-            my = e.clientY
-        });
-        (function loop() {
-            orb.style.left = mx + 'px';
-            orb.style.top = my + 'px';
-            requestAnimationFrame(loop);
-        })();
+        if (orb && !window.matchMedia('(hover: none)').matches) {
+            let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+            document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+            (function loop() { orb.style.left = mx + 'px'; orb.style.top = my + 'px'; requestAnimationFrame(loop); })();
+        } else if (orb) { orb.style.display = 'none'; }
 
         // Subtle parallax on terminal
         const terminal = document.querySelector('.hero-terminal');

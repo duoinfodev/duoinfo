@@ -585,10 +585,6 @@
             background: linear-gradient(160deg, rgba(29,184,122,.04) 0%, transparent 50%);
         }
 
-        #services {
-            background: linear-gradient(180deg, transparent 0%, rgba(29,184,122,.03) 50%, transparent 100%);
-        }
-
         #contact {
             background: linear-gradient(160deg, transparent 0%, rgba(29,184,122,.04) 100%);
         }
@@ -606,8 +602,13 @@
         .how-step:nth-child(1) { transition-delay: .2s }
         .how-step:nth-child(3) { transition-delay: 1s }
         .how-step:nth-child(5) { transition-delay: 1.8s }
+        @media(max-width:860px) {
+            .how-step:nth-child(1),
+            .how-step:nth-child(3),
+            .how-step:nth-child(5) { transition-delay: 0s }
+        }
         .how-progress { display: none; }
-        .how-step-bg { display: none; }
+        .how-step-bg { display: none !important; }
         .how-num {
             width: 64px; height: 64px; border-radius: 20px;
             background: rgba(29,184,122,.08); border: 1.5px solid rgba(29,184,122,.2);
@@ -666,10 +667,12 @@
             .how-eyebrow { margin-bottom: .5rem; font-size: .7rem; }
             .how-pill { font-size: .75rem; padding: .4rem 1rem; margin-bottom: 1.5rem; }
             .how-dots { display: flex; gap: 6px; justify-content: center; }
-            .how-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(29,184,122,.2); transition: all .3s ease; }
+            .how-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(29,184,122,.2); transition: all .3s ease; cursor: pointer; }
             .how-dot.active { background: #1db87a; width: 18px; border-radius: 3px; }
             .how-progress { display: none; }
             .how-step-bg { display: block; position: absolute; bottom: -15px; right: 10px; font-size: 8rem; font-weight: 900; color: rgba(29,184,122,.05); line-height: 1; font-family: monospace; pointer-events: none; user-select: none; }
+            .how-step.how-exit-up { opacity: 0 !important; transform: translateY(-60px) !important; }
+            .how-step.how-exit-down { opacity: 0 !important; transform: translateY(60px) !important; }
             .how-connector { display: none; }
         }
 
@@ -2023,7 +2026,7 @@
                 </div>
                 <p class="how-eyebrow">Étape 1 sur 3</p>
                 <h3>Choisissez<br>votre service</h3>
-                <p>Parcourez nos services et trouvez celui qui correspond à votre situation.</p>
+                <p>Parcourez nos 6 services et trouvez celui qui correspond à votre situation — domicile ou entreprise.</p>
                 <div class="how-pill">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0e9e65" stroke-width="2.2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
                     Aucun engagement requis
@@ -2044,10 +2047,10 @@
                 </div>
                 <p class="how-eyebrow">Étape 2 sur 3</p>
                 <h3>Vous nous<br>contactez</h3>
-                <p>Téléphone, courriel ou formulaire — peu importe.</p>
+                <p>Téléphone, courriel ou formulaire — peu importe. On vous répond en moins de 4h, soirs et fins de semaine inclus.</p>
                 <div class="how-pill">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0e9e65" stroke-width="2.2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-                    Réponse rapide garantie
+                    Réponse en moins de 4h
                 </div>
                 <div class="how-dots">
                     <div class="how-dot"></div>
@@ -2065,7 +2068,7 @@
                 </div>
                 <p class="how-eyebrow">Étape 3 sur 3</p>
                 <h3>On prend<br>rendez-vous</h3>
-                <p>On planifie à votre convenance.</p>
+                <p>On planifie à votre convenance. À domicile, en entreprise ou à distance — selon votre préférence.</p>
                 <div class="how-pill">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0e9e65" stroke-width="2.2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
                     Soirs et fins de semaine
@@ -2633,50 +2636,88 @@
         })();
         // How it works — mobile step carousel
         (function () {
-            if (window.matchMedia('(min-width: 861px)').matches) return;
+            if (!window.matchMedia('(max-width: 860px)').matches) return;
             const section = document.getElementById('how-it-works');
             if (!section) return;
             const steps = Array.from(section.querySelectorAll('.how-step'));
             let current = 0;
+            let animating = false;
 
-            function showStep(idx) {
-                steps.forEach((s, i) => {
-                    s.classList.remove('how-active', 'how-exit');
-                    if (i === idx) s.classList.add('how-active');
-                });
+            function showStep(idx, dir) {
+                if (animating) return;
+                animating = true;
+
+                const prev = steps[current];
+                const next = steps[idx];
+
+                // Exit current
+                prev.classList.remove('how-active');
+                prev.classList.add(dir > 0 ? 'how-exit-up' : 'how-exit-down');
+
+                // Enter next
+                next.style.transform = dir > 0 ? 'translateY(60px)' : 'translateY(-60px)';
+                next.style.opacity = '0';
+                next.classList.add('how-active');
+
+                setTimeout(() => {
+                    next.style.transform = 'translateY(0)';
+                    next.style.opacity = '1';
+                }, 30);
+
+                setTimeout(() => {
+                    prev.classList.remove('how-exit-up', 'how-exit-down');
+                    prev.style.transform = '';
+                    prev.style.opacity = '';
+                    animating = false;
+                }, 520);
+
+                current = idx;
+
                 // Update dots on all steps
                 steps.forEach(s => {
-                    const dots = s.querySelectorAll('.how-dot');
-                    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+                    s.querySelectorAll('.how-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
                 });
             }
 
-            // Show first step
-            showStep(0);
+            // Show first step only — hide all first
+            steps.forEach(s => {
+                s.classList.remove('how-active', 'how-exit-up', 'how-exit-down', 'visible');
+                s.style.opacity = '';
+                s.style.transform = '';
+            });
+            steps[0].classList.add('how-active');
 
-            // Tap to advance
-            section.addEventListener('click', () => {
-                if (current < steps.length - 1) {
-                    steps[current].classList.add('how-exit');
-                    current++;
-                    setTimeout(() => showStep(current), 50);
-                } else {
-                    // Last step — scroll to services
-                    document.getElementById('services').scrollIntoView({ behavior: 'smooth' });
-                }
+            // Make dots clickable
+            steps.forEach(s => {
+                s.querySelectorAll('.how-dot').forEach((dot, i) => {
+                    dot.style.cursor = 'pointer';
+                    dot.addEventListener('click', e => {
+                        e.stopPropagation();
+                        if (i !== current) showStep(i, i > current ? 1 : -1);
+                    });
+                });
             });
 
-            // Swipe up support
-            let startY = 0;
-            section.addEventListener('touchstart', e => { startY = e.touches[0].clientY; }, { passive: true });
+            // Swipe up = next, swipe down = prev
+            let startX = 0, startY = 0;
+            section.addEventListener('touchstart', e => { startX = e.touches[0].clientX; startY = e.touches[0].clientY; }, { passive: true });
             section.addEventListener('touchend', e => {
-                const diff = startY - e.changedTouches[0].clientY;
-                if (diff > 40) section.click();
+                const dx = startX - e.changedTouches[0].clientX;
+                const dy = startY - e.changedTouches[0].clientY;
+                if (Math.abs(dy) > Math.abs(dx)) {
+                    if (dy > 40) {
+                        if (current < steps.length - 1) showStep(current + 1, 1);
+                        else document.getElementById('services').scrollIntoView({ behavior: 'smooth' });
+                    } else if (dy < -40 && current > 0) {
+                        showStep(current - 1, -1);
+                    }
+                }
             }, { passive: true });
         })();
 
         // How it works — desktop step animations
         (function () {
+            if (window.matchMedia('(max-width: 860px)').matches) return;
             const section = document.getElementById('how-it-works');
             if (!section) return;
             const obs = new IntersectionObserver(entries => {
@@ -2720,7 +2761,7 @@
 
             const tints = {
                 hero:     'radial-gradient(ellipse 80% 60% at 15% 15%, rgba(29,184,122,.02) 0%, transparent 60%), radial-gradient(ellipse 50% 40% at 85% 85%, rgba(29,184,122,.02) 0%, transparent 55%)',
-                services: 'radial-gradient(ellipse 70% 60% at 50% 30%, rgba(29,184,122,.05) 0%, transparent 60%), radial-gradient(ellipse 40% 30% at 10% 80%, rgba(29,184,122,.03) 0%, transparent 50%)',
+                services: 'radial-gradient(ellipse 50% 40% at 85% 85%, rgba(29,184,122,.02) 0%, transparent 55%)',
                 strip:    'radial-gradient(ellipse 60% 50% at 80% 20%, rgba(29,184,122,.04) 0%, transparent 55%), radial-gradient(ellipse 50% 40% at 20% 70%, rgba(29,184,122,.03) 0%, transparent 50%)',
                 contact:  'radial-gradient(ellipse 70% 60% at 30% 80%, rgba(29,184,122,.06) 0%, transparent 60%), radial-gradient(ellipse 40% 30% at 80% 20%, rgba(29,184,122,.03) 0%, transparent 50%)',
             };

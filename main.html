@@ -2666,7 +2666,8 @@
                                 success.querySelector('circle').style.strokeDashoffset = '0';
                                 success.querySelector('polyline').style.strokeDashoffset = '0';
                             }, 80);
-                            // 3. Fade out after 5s and restore button cleanly
+                            // Haptic feedback on mobile
+                            if (navigator.vibrate) navigator.vibrate([40, 60, 40]);
                             setTimeout(() => {
                                 success.style.opacity = '0';
                                 setTimeout(() => {

@@ -189,7 +189,7 @@
         #hero {
             min-height: 100vh;
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1.2fr 1fr;
             align-items: center;
             padding: 7rem 15vw 4rem;
             gap: 4vw;
@@ -285,7 +285,7 @@
         /* ── STATS ROW ── */
         .hero-stats {
             display: flex;
-            gap: 2rem;
+            gap: 2.5rem;
             margin-top: 2rem;
             padding-top: 2rem;
             border-top: 1px solid var(--border);
@@ -298,7 +298,7 @@
         }
 
         .stat-num {
-            font-size: 1.55rem;
+            font-size: 2rem;
             font-weight: 800;
             letter-spacing: -.04em;
             line-height: 1;
@@ -310,10 +310,10 @@
         }
 
         .stat-label {
-            font-size: .7rem;
+            font-size: .75rem;
             color: var(--muted);
             font-weight: 500;
-            margin-top: .18rem;
+            margin-top: .25rem;
             line-height: 1.3;
         }
 
@@ -1102,6 +1102,7 @@
             gap: 1rem;
             position: relative;
             z-index: 1;
+            grid-column: 1 / -1;
         }
 
         .tarifs-footer-notes {
@@ -1440,23 +1441,28 @@
 
         .reveal {
             opacity: 0;
-            transform: translateY(26px);
-            transition: opacity .65s cubic-bezier(.22, 1, .36, 1), transform .65s cubic-bezier(.22, 1, .36, 1)
+            transform: translateY(40px) scale(.98);
+            transition:
+                opacity .7s cubic-bezier(.34, 1.56, .64, 1),
+                transform .7s cubic-bezier(.34, 1.56, .64, 1);
         }
 
         .reveal.in {
             opacity: 1;
-            transform: none
+            transform: translateY(0) scale(1);
         }
 
         /* staggered cards */
         .card {
             opacity: 0;
-            transform: translateY(20px);
-            transition: opacity .55s cubic-bezier(.22, 1, .36, 1), transform .55s cubic-bezier(.22, 1, .36, 1), border-color .3s, box-shadow .3s;
+            transform: translateY(30px) scale(.97);
+            transition:
+                opacity .6s cubic-bezier(.34, 1.56, .64, 1),
+                transform .6s cubic-bezier(.34, 1.56, .64, 1),
+                border-color .3s, box-shadow .3s;
         }
 
-        .grid3.in .card { opacity: 1; transform: none }
+        .grid3.in .card { opacity: 1; transform: translateY(0) scale(1) }
         .grid3.in .card:nth-child(1) { transition-delay: .05s }
         .grid3.in .card:nth-child(2) { transition-delay: .13s }
         .grid3.in .card:nth-child(3) { transition-delay: .21s }
@@ -1481,12 +1487,11 @@
         @keyframes up {
             from {
                 opacity: 0;
-                transform: translateY(22px)
+                transform: translateY(30px) scale(.97)
             }
-
             to {
                 opacity: 1;
-                transform: none
+                transform: translateY(0) scale(1)
             }
         }
 
@@ -2017,6 +2022,13 @@
                     </div>
                 </div>
 
+                <div class="tarifs-footer">
+                    <div class="tarifs-footer-notes">
+                        <span class="tarifs-note">Paiement comptant</span>
+                        <span class="tarifs-note">Virement Interac</span>
+                    </div>
+                </div>
+
             </div>
 
             <!-- Panel Sysadmin entreprise -->
@@ -2068,13 +2080,13 @@
                     </div>
                 </div>
 
-            </div>
-
-            <div class="tarifs-footer">
-                <div class="tarifs-footer-notes">
-                    <span class="tarifs-note">Sans engagement</span>
-                    <span class="tarifs-note">Facture détaillée à chaque visite</span>
+                <div class="tarifs-footer">
+                    <div class="tarifs-footer-notes">
+                        <span class="tarifs-note">Sans engagement</span>
+                        <span class="tarifs-note">Facture détaillée à chaque visite</span>
+                    </div>
                 </div>
+
             </div>
 
         </div>
@@ -2127,7 +2139,7 @@
                         </div>
                         <div class="form-field">
                             <label class="form-label">Téléphone</label>
-                            <input type="tel" id="telephone" name="telephone" placeholder="(514) 000-0000" pattern="[\d\s\-\(\)]{10,14}" maxlength="14" required />
+                            <input type="tel" inputmode="numeric" id="telephone" name="telephone" placeholder="(514) 000-0000" pattern="[\d\s\-\(\)]{10,14}" maxlength="14" required />
                         </div>
                     </div>
                     <div class="form-field">
@@ -2154,7 +2166,7 @@
                         <div class="form-field">
                             <label class="form-label">Client</label>
                             <div style="position:relative">
-                                <select name="client" required style="width:100%;padding:.75rem 2.5rem .75rem 1rem;border:1.5px solid var(--border);border-radius:var(--r-md);background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;font-size:.88rem;color:var(--ink);transition:border-color .2s,box-shadow .2s;outline:none;cursor:pointer;appearance:none;-webkit-appearance:none">
+                                <select name="type_client" required style="width:100%;padding:.75rem 2.5rem .75rem 1rem;border:1.5px solid var(--border);border-radius:var(--r-md);background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;font-size:.88rem;color:var(--ink);transition:border-color .2s,box-shadow .2s;outline:none;cursor:pointer;appearance:none;-webkit-appearance:none">
                                     <option value="" disabled selected>Choisir...</option>
                                     <option value="À domicile">À domicile</option>
                                     <option value="Entreprise">Entreprise</option>
@@ -2426,10 +2438,23 @@
         // Scroll progress bar
         (function () {
             const bar = document.getElementById('scroll-progress');
+            const isMobile = () => window.innerWidth <= 860;
+
+            function getEndPoint() {
+                if (isMobile()) {
+                    const form = document.getElementById('contact-form');
+                    if (form) {
+                        const rect = form.getBoundingClientRect();
+                        return window.scrollY + rect.top + form.offsetHeight - window.innerHeight;
+                    }
+                }
+                return document.documentElement.scrollHeight - window.innerHeight;
+            }
+
             window.addEventListener('scroll', () => {
                 const scrolled = window.scrollY;
-                const total = document.documentElement.scrollHeight - window.innerHeight;
-                bar.style.width = (scrolled / total * 100) + '%';
+                const total = getEndPoint();
+                bar.style.width = Math.min(scrolled / total * 100, 100) + '%';
             }, { passive: true });
         })();
 
@@ -2437,11 +2462,11 @@
         (function () {
             const orb = document.createElement('div');
             orb.id = 'bg-orb';
-            orb.style.cssText = 'position:fixed;inset:0;z-index:-1;pointer-events:none;transition:background 1.2s ease;background:radial-gradient(ellipse 80% 60% at 15% 15%, rgba(29,184,122,.07) 0%, transparent 60%),radial-gradient(ellipse 50% 40% at 85% 85%, rgba(29,184,122,.04) 0%, transparent 55%)';
+            orb.style.cssText = 'position:fixed;inset:0;z-index:-1;pointer-events:none;transition:background 1.2s ease;background:radial-gradient(ellipse 80% 60% at 15% 15%, rgba(29,184,122,.02) 0%, transparent 60%),radial-gradient(ellipse 50% 40% at 85% 85%, rgba(29,184,122,.02) 0%, transparent 55%)';
             document.body.prepend(orb);
 
             const tints = {
-                hero:     'radial-gradient(ellipse 80% 60% at 15% 15%, rgba(29,184,122,.07) 0%, transparent 60%), radial-gradient(ellipse 50% 40% at 85% 85%, rgba(29,184,122,.04) 0%, transparent 55%)',
+                hero:     'radial-gradient(ellipse 80% 60% at 15% 15%, rgba(29,184,122,.02) 0%, transparent 60%), radial-gradient(ellipse 50% 40% at 85% 85%, rgba(29,184,122,.02) 0%, transparent 55%)',
                 services: 'radial-gradient(ellipse 70% 60% at 50% 30%, rgba(29,184,122,.05) 0%, transparent 60%), radial-gradient(ellipse 40% 30% at 10% 80%, rgba(29,184,122,.03) 0%, transparent 50%)',
                 strip:    'radial-gradient(ellipse 60% 50% at 80% 20%, rgba(29,184,122,.04) 0%, transparent 55%), radial-gradient(ellipse 50% 40% at 20% 70%, rgba(29,184,122,.03) 0%, transparent 50%)',
                 contact:  'radial-gradient(ellipse 70% 60% at 30% 80%, rgba(29,184,122,.06) 0%, transparent 60%), radial-gradient(ellipse 40% 30% at 80% 20%, rgba(29,184,122,.03) 0%, transparent 50%)',
@@ -2481,6 +2506,15 @@
         (function () {
             const nom = document.getElementById('nom');
             if (!nom) return;
+
+            // Block digits and special characters
+            nom.addEventListener('keydown', (e) => {
+                const allowed = ['Backspace','Delete','Tab','ArrowLeft','ArrowRight','Home','End',' '];
+                if (!allowed.includes(e.key) && !/^[a-zA-ZÀ-ÿ\-\'']$/.test(e.key)) {
+                    e.preventDefault();
+                }
+            });
+
             nom.addEventListener('input', () => {
                 const pos = nom.selectionStart;
                 nom.value = nom.value.replace(/(?:^|\s)\S/g, c => c.toUpperCase());
@@ -2492,6 +2526,15 @@
         (function () {
             const tel = document.getElementById('telephone');
             if (!tel) return;
+
+            // Block non-numeric keys
+            tel.addEventListener('keydown', (e) => {
+                const allowed = ['Backspace','Delete','Tab','ArrowLeft','ArrowRight','Home','End'];
+                if (!allowed.includes(e.key) && !/^\d$/.test(e.key)) {
+                    e.preventDefault();
+                }
+            });
+
             tel.addEventListener('input', (e) => {
                 let val = tel.value.replace(/\D/g, '').substring(0, 10);
                 if (val.length >= 7) {
@@ -2609,6 +2652,7 @@
                     } else { throw new Error(); }
                 } catch {
                     errorEl.style.display = 'block';
+                    setTimeout(() => { errorEl.style.display = 'none'; }, 5000);
                     sendBtn.textContent = 'Envoyer la demande →';
                     sendBtn.disabled = false;
                 }

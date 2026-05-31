@@ -1360,7 +1360,38 @@
             }
         }
 
-        .send::after {
+        input.field-error,
+        textarea.field-error,
+        select.field-error {
+            border-color: #e53e3e !important;
+            box-shadow: 0 0 0 3px rgba(229,62,62,.1) !important;
+        }
+
+        .send.error {
+            background: linear-gradient(135deg, #e53e3e, #c53030) !important;
+            box-shadow: 0 4px 20px rgba(229,62,62,.35) !important;
+            animation: shake .4s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0) }
+            20%       { transform: translateX(-6px) }
+            40%       { transform: translateX(6px) }
+            60%       { transform: translateX(-4px) }
+            80%       { transform: translateX(4px) }
+        }
+            background: linear-gradient(135deg, #e53e3e, #c53030) !important;
+            box-shadow: 0 4px 20px rgba(229,62,62,.3) !important;
+            animation: shake .4s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0) }
+            20%       { transform: translateX(-6px) }
+            40%       { transform: translateX(6px) }
+            60%       { transform: translateX(-4px) }
+            80%       { transform: translateX(4px) }
+        }
             content: '';
             position: absolute;
             inset: 0;
@@ -2083,7 +2114,7 @@
             <!-- Right: form -->
             <div class="contact-form-card">
                 <p class="eyebrow" style="margin-bottom:.8rem">Formulaire</p>
-                <form class="form" id="contact-form" action="https://formspree.io/f/mjgzzpgk" method="POST">
+                <form class="form" id="contact-form" novalidate action="https://formspree.io/f/mjgzzpgk" method="POST">
                     <div class="row2">
                         <div class="form-field">
                             <label class="form-label">Votre nom</label>
@@ -2091,7 +2122,7 @@
                         </div>
                         <div class="form-field">
                             <label class="form-label">Téléphone</label>
-                            <input type="tel" name="telephone" placeholder="(514) 000-0000" required />
+                            <input type="tel" id="telephone" name="telephone" placeholder="(514) 000-0000" pattern="[\d\s\-\(\)]{10,14}" maxlength="14" required />
                         </div>
                     </div>
                     <div class="form-field">
@@ -2425,6 +2456,28 @@
             });
         })();
 
+        // Telephone auto-format
+        (function () {
+            const tel = document.getElementById('telephone');
+            if (!tel) return;
+            tel.addEventListener('input', (e) => {
+                let val = tel.value.replace(/\D/g, '').substring(0, 10);
+                if (val.length >= 7) {
+                    tel.value = '(' + val.substring(0,3) + ') ' + val.substring(3,6) + '-' + val.substring(6);
+                } else if (val.length >= 4) {
+                    tel.value = '(' + val.substring(0,3) + ') ' + val.substring(3);
+                } else if (val.length >= 1) {
+                    tel.value = '(' + val;
+                }
+            });
+            tel.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace') {
+                    const val = tel.value.replace(/\D/g, '');
+                    if (val.length <= 4) tel.value = val.substring(0, val.length - 1);
+                }
+            });
+        })();
+
         // Cards — clic pour préremplir le formulaire
         document.querySelectorAll('.card[data-service]').forEach(card => {
             card.addEventListener('click', () => {
@@ -2477,13 +2530,39 @@
         // Formspree form submission
         const contactForm = document.getElementById('contact-form');
         if (contactForm) {
+            const sendBtn = document.getElementById('send-btn');
+
+            // Custom validation on submit
             contactForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                const btn = document.getElementById('send-btn');
+
+                // Check validity
+                if (!contactForm.checkValidity()) {
+                    sendBtn.textContent = 'Champs manquants';
+                    sendBtn.classList.add('error');
+
+                    // Highlight invalid fields
+                    contactForm.querySelectorAll('input, textarea, select').forEach(field => {
+                        if (!field.checkValidity() || (field.tagName === 'SELECT' && !field.value)) {
+                            field.classList.add('field-error');
+                            field.addEventListener('input', () => field.classList.remove('field-error'), { once: true });
+                            field.addEventListener('change', () => field.classList.remove('field-error'), { once: true });
+                        }
+                    });
+
+                    setTimeout(() => {
+                        sendBtn.textContent = 'Envoyer la demande →';
+                        sendBtn.classList.remove('error');
+                    }, 2500);
+                    const invalid = contactForm.querySelector(':invalid');
+                    if (invalid) invalid.focus();
+                    return;
+                }
+
+                sendBtn.textContent = 'Envoi en cours…';
+                sendBtn.disabled = true;
                 const success = document.getElementById('form-success');
                 const errorEl = document.getElementById('form-error');
-                btn.textContent = 'Envoi en cours…';
-                btn.disabled = true;
                 try {
                     const res = await fetch(contactForm.action, {
                         method: 'POST',
@@ -2494,12 +2573,12 @@
                         success.style.display = 'block';
                         errorEl.style.display = 'none';
                         contactForm.reset();
-                        btn.textContent = 'Envoyé ✓';
+                        sendBtn.textContent = 'Envoyé ✓';
                     } else { throw new Error(); }
                 } catch {
                     errorEl.style.display = 'block';
-                    btn.textContent = 'Envoyer la demande →';
-                    btn.disabled = false;
+                    sendBtn.textContent = 'Envoyer la demande →';
+                    sendBtn.disabled = false;
                 }
             });
         }

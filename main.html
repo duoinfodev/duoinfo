@@ -73,6 +73,18 @@
             animation: pageFade .5s ease both;
         }
 
+        /* Gradient overlay that shifts on scroll */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background: radial-gradient(ellipse 80% 60% at 20% 20%, rgba(29,184,122,.06) 0%, transparent 60%),
+                        radial-gradient(ellipse 60% 50% at 80% 80%, rgba(29,184,122,.04) 0%, transparent 55%);
+            transition: background-position .8s ease;
+        }
+
         @keyframes pageFade {
             from { opacity: 0 }
             to   { opacity: 1 }
@@ -192,7 +204,6 @@
             pointer-events: none;
             background:
                 radial-gradient(ellipse 55% 60% at 80% 40%, rgba(29, 184, 122, .13) 0%, transparent 65%),
-                radial-gradient(ellipse 35% 40% at 8% 80%, rgba(255, 92, 58, .07) 0%, transparent 60%),
                 radial-gradient(ellipse 40% 30% at 50% 0%, rgba(29, 184, 122, .05) 0%, transparent 60%);
         }
 
@@ -345,7 +356,12 @@
         }
 
         h1 span {
-            color: var(--accent)
+            color: var(--accent);
+            font-family: 'Consolas', 'IBM Plex Mono', monospace;
+            font-weight: 400;
+            letter-spacing: .02em;
+            display: inline-block;
+            min-width: 5ch;
         }
 
         .sub {
@@ -509,6 +525,19 @@
 
         .mobile-accroche {
             display: none;
+        }
+
+        /* ── SECTION BACKGROUND TINTS ── */
+        #hero {
+            background: linear-gradient(160deg, rgba(29,184,122,.04) 0%, transparent 50%);
+        }
+
+        #services {
+            background: linear-gradient(180deg, transparent 0%, rgba(29,184,122,.03) 50%, transparent 100%);
+        }
+
+        #contact {
+            background: linear-gradient(160deg, transparent 0%, rgba(29,184,122,.04) 100%);
         }
 
         /* ── SERVICES ── */
@@ -1336,7 +1365,38 @@
             }
         }
 
-        .send::after {
+        input.field-error,
+        textarea.field-error,
+        select.field-error {
+            border-color: #e53e3e !important;
+            box-shadow: 0 0 0 3px rgba(229,62,62,.1) !important;
+        }
+
+        .send.error {
+            background: linear-gradient(135deg, #e53e3e, #c53030) !important;
+            box-shadow: 0 4px 20px rgba(229,62,62,.35) !important;
+            animation: shake .4s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0) }
+            20%       { transform: translateX(-6px) }
+            40%       { transform: translateX(6px) }
+            60%       { transform: translateX(-4px) }
+            80%       { transform: translateX(4px) }
+        }
+            background: linear-gradient(135deg, #e53e3e, #c53030) !important;
+            box-shadow: 0 4px 20px rgba(229,62,62,.3) !important;
+            animation: shake .4s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0) }
+            20%       { transform: translateX(-6px) }
+            40%       { transform: translateX(6px) }
+            60%       { transform: translateX(-4px) }
+            80%       { transform: translateX(4px) }
+        }
             content: '';
             position: absolute;
             inset: 0;
@@ -1468,7 +1528,18 @@
             }
         }
 
-        /* ── DISABLE HOVER ON TOUCH DEVICES ── */
+        /* ── SCROLL PROGRESS ── */
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent), var(--accent3));
+            z-index: 9999;
+            transition: width .1s linear;
+            pointer-events: none;
+        }
         @media (hover: none) {
             .card:active {
                 background: var(--card) !important;
@@ -1712,6 +1783,7 @@
 <body>
     <div id="orb"></div>
 
+    <div id="scroll-progress"></div>
     <nav>
         <a href="#" class="logo" style="text-decoration:none">
             <div class="f-logo">duo<span>info</span></div>
@@ -1742,7 +1814,7 @@
         <div class="hero-dots"></div>
         <div class="hero-copy">
             <p class="tag"><span class="tag-dot"></span>RIVE-NORD · LAVAL · MONTRÉAL</p>
-            <h1>Un support<br>en quelques <span>clics</span></h1>
+            <h1>Un support<br>en quelques <span id="clics-type"></span></h1>
             <p class="sub">Support informatique pour PME, travailleurs autonomes et particuliers</p>
             <div class="ctas">
                 <!--      <a href="#contact" class="btn-p">Choisir un service</a>      -->
@@ -2047,15 +2119,15 @@
             <!-- Right: form -->
             <div class="contact-form-card">
                 <p class="eyebrow" style="margin-bottom:.8rem">Formulaire</p>
-                <form class="form" id="contact-form" action="https://formspree.io/f/mjgzzpgk" method="POST">
+                <form class="form" id="contact-form" novalidate action="https://formspree.io/f/mjgzzpgk" method="POST">
                     <div class="row2">
                         <div class="form-field">
                             <label class="form-label">Votre nom</label>
-                            <input type="text" name="nom" placeholder="Jean Tremblay" required />
+                            <input type="text" id="nom" name="nom" placeholder="Jean Tremblay" autocapitalize="words" required />
                         </div>
                         <div class="form-field">
                             <label class="form-label">Téléphone</label>
-                            <input type="tel" name="telephone" placeholder="(514) 000-0000" />
+                            <input type="tel" id="telephone" name="telephone" placeholder="(514) 000-0000" pattern="[\d\s\-\(\)]{10,14}" maxlength="14" required />
                         </div>
                     </div>
                     <div class="form-field">
@@ -2066,7 +2138,7 @@
                         <div class="form-field">
                             <label class="form-label">Service</label>
                             <div style="position:relative">
-                                <select name="service" style="width:100%;padding:.75rem 2.5rem .75rem 1rem;border:1.5px solid var(--border);border-radius:var(--r-md);background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;font-size:.88rem;color:var(--ink);transition:border-color .2s,box-shadow .2s;outline:none;cursor:pointer;appearance:none;-webkit-appearance:none">
+                                <select name="service" required style="width:100%;padding:.75rem 2.5rem .75rem 1rem;border:1.5px solid var(--border);border-radius:var(--r-md);background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;font-size:.88rem;color:var(--ink);transition:border-color .2s,box-shadow .2s;outline:none;cursor:pointer;appearance:none;-webkit-appearance:none">
                                     <option value="" disabled selected>Choisir...</option>
                                     <option value="Support & dépannage">Support & dépannage</option>
                                     <option value="Sécurité & sauvegardes">Sécurité & sauvegardes</option>
@@ -2082,7 +2154,7 @@
                         <div class="form-field">
                             <label class="form-label">Client</label>
                             <div style="position:relative">
-                                <select name="client" style="width:100%;padding:.75rem 2.5rem .75rem 1rem;border:1.5px solid var(--border);border-radius:var(--r-md);background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;font-size:.88rem;color:var(--ink);transition:border-color .2s,box-shadow .2s;outline:none;cursor:pointer;appearance:none;-webkit-appearance:none">
+                                <select name="client" required style="width:100%;padding:.75rem 2.5rem .75rem 1rem;border:1.5px solid var(--border);border-radius:var(--r-md);background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;font-size:.88rem;color:var(--ink);transition:border-color .2s,box-shadow .2s;outline:none;cursor:pointer;appearance:none;-webkit-appearance:none">
                                     <option value="" disabled selected>Choisir...</option>
                                     <option value="À domicile">À domicile</option>
                                     <option value="Entreprise">Entreprise</option>
@@ -2351,6 +2423,93 @@
                 type(label, text1, 38, null);
             }, 400);
         })();
+        // Scroll progress bar
+        (function () {
+            const bar = document.getElementById('scroll-progress');
+            window.addEventListener('scroll', () => {
+                const scrolled = window.scrollY;
+                const total = document.documentElement.scrollHeight - window.innerHeight;
+                bar.style.width = (scrolled / total * 100) + '%';
+            }, { passive: true });
+        })();
+
+        // Scroll gradient shift
+        (function () {
+            const orb = document.createElement('div');
+            orb.id = 'bg-orb';
+            orb.style.cssText = 'position:fixed;inset:0;z-index:-1;pointer-events:none;transition:background 1.2s ease;background:radial-gradient(ellipse 80% 60% at 15% 15%, rgba(29,184,122,.07) 0%, transparent 60%),radial-gradient(ellipse 50% 40% at 85% 85%, rgba(29,184,122,.04) 0%, transparent 55%)';
+            document.body.prepend(orb);
+
+            const tints = {
+                hero:     'radial-gradient(ellipse 80% 60% at 15% 15%, rgba(29,184,122,.07) 0%, transparent 60%), radial-gradient(ellipse 50% 40% at 85% 85%, rgba(29,184,122,.04) 0%, transparent 55%)',
+                services: 'radial-gradient(ellipse 70% 60% at 50% 30%, rgba(29,184,122,.05) 0%, transparent 60%), radial-gradient(ellipse 40% 30% at 10% 80%, rgba(29,184,122,.03) 0%, transparent 50%)',
+                strip:    'radial-gradient(ellipse 60% 50% at 80% 20%, rgba(29,184,122,.04) 0%, transparent 55%), radial-gradient(ellipse 50% 40% at 20% 70%, rgba(29,184,122,.03) 0%, transparent 50%)',
+                contact:  'radial-gradient(ellipse 70% 60% at 30% 80%, rgba(29,184,122,.06) 0%, transparent 60%), radial-gradient(ellipse 40% 30% at 80% 20%, rgba(29,184,122,.03) 0%, transparent 50%)',
+            };
+
+            const obs = new IntersectionObserver(entries => {
+                entries.forEach(e => {
+                    if (e.isIntersecting && tints[e.target.id]) {
+                        orb.style.background = tints[e.target.id];
+                    }
+                });
+            }, { threshold: 0.3 });
+
+            ['hero','services','strip','contact'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) obs.observe(el);
+            });
+        })();
+
+        // "clics" typewriter
+        (function () {
+            const el = document.getElementById('clics-type');
+            if (!el) return;
+            const word = 'clics';
+            let i = 0;
+            function type() {
+                if (i <= word.length) {
+                    el.textContent = word.substring(0, i);
+                    i++;
+                    setTimeout(type, 120);
+                }
+            }
+            setTimeout(type, 900);
+        })();
+
+        // Nom auto-capitalize each word
+        (function () {
+            const nom = document.getElementById('nom');
+            if (!nom) return;
+            nom.addEventListener('input', () => {
+                const pos = nom.selectionStart;
+                nom.value = nom.value.replace(/(?:^|\s)\S/g, c => c.toUpperCase());
+                nom.setSelectionRange(pos, pos);
+            });
+        })();
+
+        // Telephone auto-format
+        (function () {
+            const tel = document.getElementById('telephone');
+            if (!tel) return;
+            tel.addEventListener('input', (e) => {
+                let val = tel.value.replace(/\D/g, '').substring(0, 10);
+                if (val.length >= 7) {
+                    tel.value = '(' + val.substring(0,3) + ') ' + val.substring(3,6) + '-' + val.substring(6);
+                } else if (val.length >= 4) {
+                    tel.value = '(' + val.substring(0,3) + ') ' + val.substring(3);
+                } else if (val.length >= 1) {
+                    tel.value = '(' + val;
+                }
+            });
+            tel.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace') {
+                    const val = tel.value.replace(/\D/g, '');
+                    if (val.length <= 4) tel.value = val.substring(0, val.length - 1);
+                }
+            });
+        })();
+
         // Cards — clic pour préremplir le formulaire
         document.querySelectorAll('.card[data-service]').forEach(card => {
             card.addEventListener('click', () => {
@@ -2403,13 +2562,39 @@
         // Formspree form submission
         const contactForm = document.getElementById('contact-form');
         if (contactForm) {
+            const sendBtn = document.getElementById('send-btn');
+
+            // Custom validation on submit
             contactForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                const btn = document.getElementById('send-btn');
+
+                // Check validity
+                if (!contactForm.checkValidity()) {
+                    sendBtn.textContent = 'Champs manquants';
+                    sendBtn.classList.add('error');
+
+                    // Highlight invalid fields
+                    contactForm.querySelectorAll('input, textarea, select').forEach(field => {
+                        if (!field.checkValidity() || (field.tagName === 'SELECT' && !field.value)) {
+                            field.classList.add('field-error');
+                            field.addEventListener('input', () => field.classList.remove('field-error'), { once: true });
+                            field.addEventListener('change', () => field.classList.remove('field-error'), { once: true });
+                        }
+                    });
+
+                    setTimeout(() => {
+                        sendBtn.textContent = 'Envoyer la demande →';
+                        sendBtn.classList.remove('error');
+                    }, 2500);
+                    const invalid = contactForm.querySelector(':invalid');
+                    if (invalid) invalid.focus();
+                    return;
+                }
+
+                sendBtn.textContent = 'Envoi en cours…';
+                sendBtn.disabled = true;
                 const success = document.getElementById('form-success');
                 const errorEl = document.getElementById('form-error');
-                btn.textContent = 'Envoi en cours…';
-                btn.disabled = true;
                 try {
                     const res = await fetch(contactForm.action, {
                         method: 'POST',
@@ -2420,12 +2605,12 @@
                         success.style.display = 'block';
                         errorEl.style.display = 'none';
                         contactForm.reset();
-                        btn.textContent = 'Envoyé ✓';
+                        sendBtn.textContent = 'Envoyé ✓';
                     } else { throw new Error(); }
                 } catch {
                     errorEl.style.display = 'block';
-                    btn.textContent = 'Envoyer la demande →';
-                    btn.disabled = false;
+                    sendBtn.textContent = 'Envoyer la demande →';
+                    sendBtn.disabled = false;
                 }
             });
         }

@@ -356,7 +356,12 @@
         }
 
         h1 span {
-            color: var(--accent)
+            color: var(--accent);
+            font-family: 'Consolas', 'IBM Plex Mono', monospace;
+            font-weight: 400;
+            letter-spacing: .02em;
+            display: inline-block;
+            min-width: 5ch;
         }
 
         .sub {
@@ -1809,7 +1814,7 @@
         <div class="hero-dots"></div>
         <div class="hero-copy">
             <p class="tag"><span class="tag-dot"></span>RIVE-NORD · LAVAL · MONTRÉAL</p>
-            <h1>Un support<br>en quelques <span>clics</span></h1>
+            <h1>Un support<br>en quelques <span id="clics-type"></span></h1>
             <p class="sub">Support informatique pour PME, travailleurs autonomes et particuliers</p>
             <div class="ctas">
                 <!--      <a href="#contact" class="btn-p">Choisir un service</a>      -->
@@ -2118,7 +2123,7 @@
                     <div class="row2">
                         <div class="form-field">
                             <label class="form-label">Votre nom</label>
-                            <input type="text" name="nom" placeholder="Jean Tremblay" required />
+                            <input type="text" id="nom" name="nom" placeholder="Jean Tremblay" autocapitalize="words" required />
                         </div>
                         <div class="form-field">
                             <label class="form-label">Téléphone</label>
@@ -2453,6 +2458,33 @@
             ['hero','services','strip','contact'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) obs.observe(el);
+            });
+        })();
+
+        // "clics" typewriter
+        (function () {
+            const el = document.getElementById('clics-type');
+            if (!el) return;
+            const word = 'clics';
+            let i = 0;
+            function type() {
+                if (i <= word.length) {
+                    el.textContent = word.substring(0, i);
+                    i++;
+                    setTimeout(type, 120);
+                }
+            }
+            setTimeout(type, 900);
+        })();
+
+        // Nom auto-capitalize each word
+        (function () {
+            const nom = document.getElementById('nom');
+            if (!nom) return;
+            nom.addEventListener('input', () => {
+                const pos = nom.selectionStart;
+                nom.value = nom.value.replace(/(?:^|\s)\S/g, c => c.toUpperCase());
+                nom.setSelectionRange(pos, pos);
             });
         })();
 

@@ -590,7 +590,7 @@
         }
 
         /* ── HOW IT WORKS ── */
-        #how-it-works { padding: 4rem 15vw 0; scroll-margin-top: 6rem; }
+        #how-it-works { padding: 6rem 15vw 2rem; scroll-margin-top: 6rem; }
         .how-steps { display: flex; align-items: flex-start; gap: 0; }
         .how-step {
             flex: 1; display: flex; flex-direction: column; align-items: center;
@@ -2725,7 +2725,7 @@
                     section.querySelectorAll('.how-step').forEach(s => s.classList.add('visible'));
                     obs.disconnect();
                 }
-            }, { threshold: 0.3 });
+            }, { threshold: 0.1 });
             obs.observe(section);
         })();
 
@@ -2772,7 +2772,7 @@
                         orb.style.background = tints[e.target.id];
                     }
                 });
-            }, { threshold: 0.3 });
+            }, { threshold: 0.1 });
 
             ['hero','services','strip','contact'].forEach(id => {
                 const el = document.getElementById(id);

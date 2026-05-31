@@ -1866,6 +1866,7 @@
             .contact-card { padding: 2rem }
 
             #services { padding: 5rem 5vw 3rem }
+            #services { scroll-margin-top: 0 }
             .hide-mobile { display: none !important; }
 
             .mobile-accroche {
@@ -2025,7 +2026,7 @@
                 </div>
                 <p class="how-eyebrow">Étape 1 sur 3</p>
                 <h3>Choisissez<br>votre service</h3>
-                <p>Parcourez nos services et trouvez celui qui correspond à votre situation.</p>
+                <p>Parcourez nos 6 services et trouvez celui qui correspond à votre situation — domicile ou entreprise.</p>
                 <div class="how-pill">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0e9e65" stroke-width="2.2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
                     Aucun engagement requis
@@ -2046,7 +2047,7 @@
                 </div>
                 <p class="how-eyebrow">Étape 2 sur 3</p>
                 <h3>Vous nous<br>contactez</h3>
-                <p>Téléphone, courriel ou formulaire — peu importe.</p>
+                <p>Téléphone, courriel ou formulaire — peu importe. On vous répond en moins de 4h, soirs et fins de semaine inclus.</p>
                 <div class="how-pill">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0e9e65" stroke-width="2.2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
                     Réponse en moins de 4h
@@ -2067,7 +2068,7 @@
                 </div>
                 <p class="how-eyebrow">Étape 3 sur 3</p>
                 <h3>On prend<br>rendez-vous</h3>
-                <p>On planifie à votre convenance.</p>
+                <p>On planifie à votre convenance. À domicile, en entreprise ou à distance — selon votre préférence.</p>
                 <div class="how-pill">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0e9e65" stroke-width="2.2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
                     Soirs et fins de semaine
@@ -2714,9 +2715,10 @@
                         if (current < steps.length - 1) {
                             showStep(current + 1, 1);
                         } else {
-                            // Last step — scroll down to services
+                            // Last step — scroll to top of services
                             setTimeout(() => {
-                                document.getElementById('services').scrollIntoView({ behavior: 'smooth' });
+                                const el = document.getElementById('services');
+                                window.scrollTo({ top: el.offsetTop, behavior: 'smooth' });
                             }, 400);
                         }
                     } else {

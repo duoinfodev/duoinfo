@@ -11,7 +11,7 @@
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://duoinfo.ca" />
-    <meta property="og:title" content="Duoinfo — Support informatique à domicile et en entreprise | Rive-Nord, Laval, Montréal" />
+    <meta property="og:title" content="Duoinfo — Support informatique · Rive-Nord, Laval, Montréal" />
     <meta property="og:description" content="Support informatique pour PME et travailleurs autonomes. Dépannage, sécurité, cloud et consultation TI. On se déplace chez vous. Première consultation gratuite." />
     <meta property="og:locale" content="fr_CA" />
 
@@ -78,7 +78,7 @@
         }
     }
     </script>
-    <title>Duoinfo — Support informatique à domicile et en entreprise | Rive-Nord, Laval, Montréal</title>
+    <title>Duoinfo</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -137,7 +137,71 @@
             transition: background-position .8s ease;
         }
 
-        @keyframes pageFade {
+        /* ── SPLASH SCREEN ── */
+        #splash {
+            position: fixed;
+            inset: 0;
+            background: #0a100d;
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: .5rem;
+            transition: opacity .5s ease, visibility .5s ease;
+        }
+
+        #splash.hide {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .splash-logo {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -.04em;
+            color: #fff;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: splashIn .6s .2s cubic-bezier(.34,1.56,.64,1) forwards;
+        }
+
+        .splash-logo span { color: #1db87a; }
+
+        .splash-bar {
+            width: 40px;
+            height: 2px;
+            background: rgba(255,255,255,.1);
+            border-radius: 2px;
+            overflow: hidden;
+            opacity: 0;
+            animation: splashIn .4s .5s ease forwards;
+        }
+
+        .splash-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: #1db87a;
+            animation: splashLoad .8s .6s ease forwards;
+        }
+
+        @keyframes splashIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes splashLoad {
+            to { width: 100%; }
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 9998;
+            pointer-events: none;
+            opacity: .028;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            background-size: 200px 200px;
+        }
             from { opacity: 0 }
             to   { opacity: 1 }
         }
@@ -1937,6 +2001,11 @@
 <body>
     <div id="orb"></div>
 
+    <div id="splash">
+        <div class="splash-logo">duo<span>info</span></div>
+        <div class="splash-bar"><div class="splash-bar-fill"></div></div>
+    </div>
+
     <div id="scroll-progress"></div>
     <nav>
         <a href="#" class="logo" style="text-decoration:none">
@@ -2749,6 +2818,16 @@
             obs.observe(section);
         })();
 
+        // Splash screen
+        (function () {
+            const splash = document.getElementById('splash');
+            if (!splash) return;
+            setTimeout(() => {
+                splash.classList.add('hide');
+                setTimeout(() => splash.remove(), 500);
+            }, 1600);
+        })();
+
         // Scroll progress bar
         (function () {
             const bar = document.getElementById('scroll-progress');
@@ -2864,6 +2943,16 @@
                     const val = tel.value.replace(/\D/g, '');
                     if (val.length <= 4) tel.value = val.substring(0, val.length - 1);
                 }
+            });
+        })();
+
+        // Mobile haptic on card tap
+        (function () {
+            if (!navigator.vibrate) return;
+            document.querySelectorAll('.card[data-service]').forEach(card => {
+                card.addEventListener('touchstart', () => {
+                    navigator.vibrate(8);
+                }, { passive: true });
             });
         })();
 

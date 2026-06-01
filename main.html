@@ -607,7 +607,7 @@
             .how-step:nth-child(5) { transition-delay: 0s }
         }
         .how-progress { display: none; }
-        .how-step-bg { display: none !important; }
+        .how-step-bg { display: none; }
         .how-num {
             width: 64px; height: 64px; border-radius: 20px;
             background: rgba(29,184,122,.08); border: 1.5px solid rgba(29,184,122,.2);
@@ -671,18 +671,18 @@
                 transform: translateX(100%); opacity: 0;
             }
             .how-step h3 { font-size: 1.3rem; letter-spacing: .08em; line-height: 1.2; margin-bottom: 0; }
-            .how-big-num { font-size: 5rem; }
+            .how-big-num { display: none; }
             .how-title-c { gap: .8rem; }
             .how-step p { font-size: .88rem; margin-bottom: 1.2rem; }
             .how-num { width: 72px; height: 72px; border-radius: 22px; margin-bottom: 1rem; }
             .how-num svg { width: 32px; height: 32px; }
             .how-eyebrow { margin-bottom: .5rem; font-size: .7rem; }
             .how-pill { font-size: .75rem; padding: .4rem 1rem; margin-bottom: 1.5rem; }
-            .how-dots { display: flex; gap: 6px; justify-content: center; }
+            .how-dots { display: flex; gap: 6px; justify-content: center; margin-top: 1.5rem; }
             .how-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(29,184,122,.2); transition: all .3s ease; cursor: pointer; }
             .how-dot.active { background: #1db87a; width: 18px; border-radius: 3px; }
             .how-progress { display: none; }
-            .how-step-bg { display: block; position: absolute; bottom: -15px; right: 10px; font-size: 8rem; font-weight: 900; color: rgba(29,184,122,.05); line-height: 1; font-family: monospace; pointer-events: none; user-select: none; }
+            .how-step-bg { display: block; position: absolute; bottom: -25px; left: -8px; font-size: 10rem; font-weight: 900; color: rgba(29,184,122,.06); line-height: 1; font-family: monospace; pointer-events: none; user-select: none; }
             .how-connector { display: none; }
         }
 

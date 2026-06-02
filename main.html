@@ -721,6 +721,7 @@
                 transition: opacity .45s cubic-bezier(.4,0,.2,1), transform .45s cubic-bezier(.4,0,.2,1);
                 pointer-events: none;
                 will-change: transform, opacity;
+                cursor: pointer;
             }
             .how-step.how-active {
                 opacity: 1; transform: translateX(0); pointer-events: auto;
@@ -2773,6 +2774,24 @@
                         if (i !== current) showStep(i, i > current ? 1 : -1);
                     });
                 });
+            });
+
+            // Click zones — left half = prev, right half = next
+            section.addEventListener('click', e => {
+                // Ignore clicks on dots
+                if (e.target.closest('.how-dots')) return;
+                const half = section.offsetWidth / 2;
+                if (e.clientX > half) {
+                    if (current < steps.length - 1) showStep(current + 1, 1);
+                    else {
+                        setTimeout(() => {
+                            const el = document.getElementById('services');
+                            window.scrollTo({ top: el.offsetTop, behavior: 'smooth' });
+                        }, 400);
+                    }
+                } else {
+                    if (current > 0) showStep(current - 1, -1);
+                }
             });
 
             // Swipe left = next, swipe right = prev

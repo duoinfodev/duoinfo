@@ -768,7 +768,33 @@
         .how-eyebrow { margin-bottom: .5rem; font-size: .7rem; }
             .how-pill { font-size: .75rem; padding: .4rem 1rem; margin-bottom: 1.5rem; }
             .how-dots { display: flex; gap: 6px; justify-content: center; margin-top: 1.5rem; }
-            .how-swipe-hint { position: absolute; bottom: 1.2rem; right: 1.2rem; font-size: .62rem; color: rgba(0,0,0,.2); font-weight: 500; letter-spacing: .04em; pointer-events: none; }
+            .how-swipe-hint {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 4px;
+                position: absolute;
+                bottom: 1.8rem;
+                left: 50%;
+                transform: translateX(-50%);
+                pointer-events: none;
+                opacity: .3;
+                font-size: .6rem;
+                font-weight: 500;
+                letter-spacing: .08em;
+                color: var(--muted);
+                text-transform: uppercase;
+            }
+
+            .how-swipe-arrow {
+                animation: swipeAnim 1.8s ease-in-out infinite;
+            }
+
+            @keyframes swipeAnim {
+                0%, 100% { transform: translateX(0); opacity: .3; }
+                30% { transform: translateX(6px); opacity: .7; }
+                60% { transform: translateX(-6px); opacity: .7; }
+            }
             .how-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(29,184,122,.2); transition: all .3s ease; cursor: pointer; }
             .how-dot.active { background: #1db87a; width: 18px; border-radius: 3px; }
             .how-progress { display: none; }
@@ -2156,7 +2182,14 @@
                     <div class="how-dot"></div>
                     <div class="how-dot"></div>
                 </div>
-                <span class="how-swipe-hint">← Glisser →</span>
+                <span class="how-swipe-hint">
+                    <svg class="how-swipe-arrow" width="40" height="14" viewBox="0 0 40 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="2" y1="7" x2="38" y2="7"/>
+                        <polyline points="5,3 1,7 5,11"/>
+                        <polyline points="35,3 39,7 35,11"/>
+                    </svg>
+                    Glisser
+                </span>
             </div>
 
             <div class="how-connector"><div class="how-arrow">
@@ -2189,7 +2222,14 @@
                     <div class="how-dot active"></div>
                     <div class="how-dot"></div>
                 </div>
-                <span class="how-swipe-hint">← Glisser →</span>
+                <span class="how-swipe-hint">
+                    <svg class="how-swipe-arrow" width="40" height="14" viewBox="0 0 40 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="2" y1="7" x2="38" y2="7"/>
+                        <polyline points="5,3 1,7 5,11"/>
+                        <polyline points="35,3 39,7 35,11"/>
+                    </svg>
+                    Glisser
+                </span>
             </div>
 
             <div class="how-connector"><div class="how-arrow">
@@ -2226,7 +2266,14 @@
                     <div class="how-dot"></div>
                     <div class="how-dot active"></div>
                 </div>
-                <span class="how-swipe-hint">← Glisser →</span>
+                <span class="how-swipe-hint">
+                    <svg class="how-swipe-arrow" width="40" height="14" viewBox="0 0 40 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="2" y1="7" x2="38" y2="7"/>
+                        <polyline points="5,3 1,7 5,11"/>
+                        <polyline points="35,3 39,7 35,11"/>
+                    </svg>
+                    Glisser
+                </span>
             </div>
 
         </div>
@@ -2305,7 +2352,14 @@
                     <span class="card-cta">Choisir ce service →</span>
                     <span class="card-result">Évitez les pannes avant qu'elles arrivent</span>
                 </div>
-                <span class="how-swipe-hint">← Glisser →</span>
+                <span class="how-swipe-hint">
+                    <svg class="how-swipe-arrow" width="40" height="14" viewBox="0 0 40 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="2" y1="7" x2="38" y2="7"/>
+                        <polyline points="5,3 1,7 5,11"/>
+                        <polyline points="35,3 39,7 35,11"/>
+                    </svg>
+                    Glisser
+                </span>
             </div>
 
         </div>

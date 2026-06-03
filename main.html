@@ -2001,20 +2001,9 @@
             .contact-wrap { grid-template-columns: 1fr }
             .contact-form-card {
                 order: 1;
-                background: rgba(29,184,122,.03);
-                border: 1px solid rgba(29,184,122,.18) !important;
-                position: relative;
-                overflow: hidden;
-                padding-left: calc(1.5rem + 4px) !important;
-            }
-            .contact-form-card::after {
-                content: '';
-                position: absolute;
-                top: 0; left: 0;
-                width: 4px;
-                height: 100%;
-                background: #1db87a;
-                border-radius: 4px 0 0 4px;
+                border: 1.5px solid rgba(29,184,122,.3) !important;
+                box-shadow: 0 0 0 4px rgba(29,184,122,.06);
+                border-radius: var(--r-lg);
             }
             .contact-info { order: 2 }
 

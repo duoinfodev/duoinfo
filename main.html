@@ -684,8 +684,8 @@
         }
         .how-step.visible { opacity: 1; transform: translateY(0); }
         .how-step:nth-child(1) { transition-delay: .2s }
-        .how-step:nth-child(3) { transition-delay: 1s }
-        .how-step:nth-child(5) { transition-delay: 1.8s }
+        .how-step:nth-child(3) { transition-delay: .2s }
+        .how-step:nth-child(5) { transition-delay: .4s }
         @media(max-width:860px) {
             .how-step:nth-child(1),
             .how-step:nth-child(3),
@@ -701,9 +701,9 @@
             transition: transform .3s cubic-bezier(.34,1.56,.64,1);
         }
         .how-step.visible .how-num { animation: howPulse .5s cubic-bezier(.34,1.56,.64,1) forwards; }
-        .how-step:nth-child(1).visible .how-num { animation-delay: .8s }
-        .how-step:nth-child(3).visible .how-num { animation-delay: 1.6s }
-        .how-step:nth-child(5).visible .how-num { animation-delay: 2.4s }
+        .how-step:nth-child(1).visible .how-num { animation-delay: .4s }
+        .how-step:nth-child(3).visible .how-num { animation-delay: .6s }
+        .how-step:nth-child(5).visible .how-num { animation-delay: .8s }
         @keyframes howPulse {
             0%   { transform: scale(1) }
             50%  { transform: scale(1.15); background: rgba(29,184,122,.15); border-color: rgba(29,184,122,.45) }

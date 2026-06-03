@@ -86,8 +86,8 @@
     <!-- Preload critical font files directly -->
     <link rel="preload" href="https://fonts.gstatic.com/s/dmsans/v15/rP2Hp2ywxg089UriCZOIHQ.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="https://fonts.gstatic.com/s/lexend/v19/wlptgwvFAVdoq2_F94zlCfv0bz1WCzsW.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&family=Lexend:wght@300;400&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&family=Lexend:wght@300;400&display=swap" /></noscript>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&family=Lexend:wght@300;400&family=Outfit:wght@900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&family=Lexend:wght@300;400&family=Outfit:wght@900&display=swap" /></noscript>
     <style>
         *,
         *::before,
@@ -422,8 +422,8 @@
         .hero-stats {
             display: flex;
             gap: 2.5rem;
-            margin-top: 2rem;
-            padding-top: 2rem;
+            margin-top: 7rem;
+            padding-top: 7rem;
             border-top: 1px solid var(--border);
             animation: up .7s .45s ease both;
         }
@@ -672,6 +672,8 @@
             background: linear-gradient(160deg, transparent 0%, rgba(29,184,122,.04) 100%);
         }
 
+        .how-step-label { display: none; }
+
         /* ── HOW IT WORKS ── */
         #how-it-works { padding: 6rem 15vw 2rem; scroll-margin-top: 6rem; }
         .how-steps { display: flex; align-items: flex-start; gap: 0; }
@@ -721,7 +723,7 @@
         .how-step h3 { font-size: 1.1rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; margin: 0; color: var(--ink); line-height: 1.3; }
         .how-title-c { display: flex; align-items: center; gap: .6rem; justify-content: center; }
         .how-swipe-hint { display: none; }
-        .how-big-num { font-size: 3.5rem; font-weight: 900; color: rgba(29,184,122,.18); line-height: 1; font-family: monospace; flex-shrink: 0; }
+        .how-big-num { font-size: 4.5rem; font-weight: 900; color: rgba(29,184,122,.1); line-height: 1; font-family: 'Outfit', sans-serif; flex-shrink: 0; }
         .how-step p { font-size: .78rem; color: var(--muted); line-height: 1.55; margin: 0 0 .75rem; }
         .how-pill {
             display: inline-flex; align-items: center; gap: 5px;
@@ -735,6 +737,39 @@
         .how-arrow { display: flex; align-items: center; gap: 4px; }
         @media(max-width:860px) {
             #how-it-works { padding: 0; overflow: hidden; }
+            .how-step-label {
+                display: block;
+                position: absolute;
+                top: 7rem;
+                left: 0; right: 0;
+                text-align: center;
+                z-index: 1;
+            }
+            .how-step-label-top {
+                display: block;
+                font-size: .75rem;
+                font-weight: 600;
+                letter-spacing: .12em;
+                text-transform: uppercase;
+                color: rgba(29,184,122,.6);
+                margin-bottom: 2px;
+            }
+            .how-step-label-bottom {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 5px;
+                font-size: 1.1rem;
+                font-weight: 700;
+                color: var(--ink);
+            }
+            .how-step-label-num {
+                font-size: 3rem;
+                font-weight: 900;
+                color: #1db87a;
+                line-height: 1;
+                font-family: 'Outfit', sans-serif;
+            }
             .how-steps {
                 flex-direction: column; gap: 0;
                 height: 100svh; overflow: hidden; position: relative;
@@ -813,7 +848,7 @@
             .how-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(29,184,122,.2); transition: all .3s ease; cursor: pointer; }
             .how-dot.active { background: #1db87a; width: 18px; border-radius: 3px; }
             .how-progress { display: none; }
-            .how-step-bg { display: block; position: absolute; bottom: -25px; left: -8px; font-size: 10rem; font-weight: 900; color: rgba(29,184,122,.15); line-height: 1; font-family: monospace; pointer-events: none; user-select: none; }
+            .how-step-bg { display: block; position: absolute; bottom: -25px; left: -8px; font-size: 13rem; font-weight: 900; color: rgba(29,184,122,.08); line-height: 1; font-family: 'Outfit', sans-serif; pointer-events: none; user-select: none; }
             .how-connector { display: none; }
         }
 
@@ -856,7 +891,7 @@
         }
 
         .s-note {
-            font-size: .85rem;
+            font-size: 1.1rem;
             color: var(--muted);
             max-width: 260px;
             text-align: right;
@@ -1247,7 +1282,7 @@
         }
 
         .rate-unit {
-            font-size: .85rem;
+            font-size: 1.1rem;
             color: rgba(255,255,255,.35);
             font-weight: 500;
         }
@@ -1528,7 +1563,7 @@
         }
 
         .method-val {
-            font-size: .85rem;
+            font-size: 1.1rem;
             font-weight: 600;
             color: var(--ink);
         }
@@ -1949,7 +1984,7 @@
             .tarifs-tab {
                 min-height: 52px;
                 padding: .6rem 1.4rem;
-                font-size: .85rem;
+                font-size: 1.1rem;
                 flex: 1;
                 justify-content: center;
             }
@@ -2180,6 +2215,10 @@
 
             <div class="how-step">
                 <span class="how-step-bg">01</span>
+                <div class="how-step-label">
+                    <span class="how-step-label-top">Du support informatique</span>
+                    <div class="how-step-label-bottom">en <span class="how-step-label-num">3</span> étapes</div>
+                </div>
                 <div class="how-num">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1db87a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="15" x2="11" y2="15"/></svg>
                 </div>

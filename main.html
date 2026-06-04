@@ -1879,9 +1879,25 @@
         .hamburger.open span:nth-child(2) { opacity: 0 }
         .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg) }
 
+        .mobile-menu-close {
+            position: absolute;
+            top: 1.4rem;
+            right: 1.4rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--ink);
+            padding: .5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background .2s, transform .2s;
+        }
+
+        .mobile-menu-close:active { transform: scale(.9); }
+
         .mobile-menu {
-            display: none;
-            position: fixed;
             inset: 0;
             background: var(--bg);
             z-index: 999;
@@ -2132,6 +2148,9 @@
 
     <!-- Mobile menu -->
     <div class="mobile-menu" id="mobile-menu">
+        <button class="mobile-menu-close" id="mobile-menu-close" aria-label="Fermer le menu">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
         <a href="#services">Services</a>
         <a href="#strip">Tarifs</a>
         <a href="#contact">Contact</a>
@@ -3194,29 +3213,29 @@
         // Hamburger menu
         const hamburger = document.getElementById('hamburger');
         const mobileMenu = document.getElementById('mobile-menu');
+        const closeBtn = document.getElementById('mobile-menu-close');
+
+        function closeMenu() {
+            hamburger.classList.remove('open');
+            mobileMenu.classList.remove('open');
+            setTimeout(() => { mobileMenu.style.display = 'none'; }, 260);
+        }
+
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
 
         hamburger.addEventListener('click', () => {
             const isOpen = mobileMenu.classList.contains('open');
-            hamburger.classList.toggle('open');
             if (!isOpen) {
+                hamburger.classList.add('open');
                 mobileMenu.style.display = 'flex';
                 requestAnimationFrame(() => mobileMenu.classList.add('open'));
-                document.body.style.overflow = 'hidden';
             } else {
-                mobileMenu.classList.remove('open');
-                document.body.style.overflow = '';
-                setTimeout(() => mobileMenu.style.display = 'none', 260);
+                closeMenu();
             }
         });
 
-        mobileMenu.querySelectorAll('a').forEach(a => {
-            a.addEventListener('click', () => {
-                hamburger.classList.remove('open');
-                mobileMenu.classList.remove('open');
-                document.body.style.overflow = '';
-                setTimeout(() => mobileMenu.style.display = 'none', 260);
-            });
-        });
+
         // Formspree form submission
         const contactForm = document.getElementById('contact-form');
         if (contactForm) {

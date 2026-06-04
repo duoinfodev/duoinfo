@@ -117,6 +117,11 @@
             --r-xl: 36px;
         }
 
+        a, button, [data-service], .card, .tarifs-tab, .how-dot {
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+
         html {
             scroll-behavior: smooth;
             overscroll-behavior: none;
@@ -3049,6 +3054,9 @@
             }, { threshold: 0.1 });
             obs.observe(section);
         })();
+
+        // Fix iOS Safari first-tap issue
+        document.addEventListener('touchstart', function(){}, {passive: true});
 
         // Splash screen
         (function () {

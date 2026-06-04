@@ -3254,6 +3254,11 @@
         if (contactForm) {
             const sendBtn = document.getElementById('send-btn');
 
+            // Haptic on button tap
+            sendBtn.addEventListener('touchstart', () => {
+                if (navigator.vibrate) navigator.vibrate(10);
+            }, { passive: true });
+
             // Custom validation on submit
             contactForm.addEventListener('submit', async (e) => {
                 e.preventDefault();

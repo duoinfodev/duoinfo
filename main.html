@@ -1899,6 +1899,24 @@
             pointer-events: auto;
         }
 
+        .mob-close {
+            position: absolute;
+            top: 1.2rem;
+            right: 1.4rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--muted);
+            padding: .5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color .2s, background .2s;
+        }
+
+        .mob-close:hover { color: var(--ink); background: rgba(0,0,0,.05); }
+
         .mobile-menu a {
             font-size: .82rem;
             font-weight: 700;
@@ -2134,6 +2152,9 @@
 
     <!-- Mobile menu -->
     <div class="mobile-menu" id="mobile-menu">
+        <button class="mob-close" id="mob-close" aria-label="Fermer">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
         <a href="#services">Services</a>
         <a href="#strip">Tarifs</a>
         <a href="#contact">Contact</a>
@@ -3195,32 +3216,37 @@
             });
         });
         // Hamburger menu
-        const hamburger = document.getElementById('hamburger');
-        const mobileMenu = document.getElementById('mobile-menu');
+        (function() {
+            const hamburger = document.getElementById('hamburger');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobClose = document.getElementById('mob-close');
 
-        hamburger.addEventListener('click', () => {
-            const isOpen = mobileMenu.classList.contains('open');
-            hamburger.classList.toggle('open');
-            if (!isOpen) {
-                mobileMenu.style.display = 'flex';
-                requestAnimationFrame(() => mobileMenu.classList.add('open'));
-                document.body.style.overflow = 'hidden';
-            } else {
-                mobileMenu.classList.remove('open');
-                document.body.style.overflow = '';
-                setTimeout(() => mobileMenu.style.display = 'none', 260);
-            }
-        });
-
-        mobileMenu.querySelectorAll('a').forEach(a => {
-            a.addEventListener('click', () => {
+            function closeMenu() {
                 hamburger.classList.remove('open');
                 mobileMenu.classList.remove('open');
-                document.body.style.overflow = '';
-                setTimeout(() => mobileMenu.style.display = 'none', 260);
+                setTimeout(() => { mobileMenu.style.display = 'none'; }, 260);
+            }
+
+            // X button
+            if (mobClose) mobClose.addEventListener('click', closeMenu);
+
+            // Hamburger toggle
+            hamburger.addEventListener('click', () => {
+                const isOpen = mobileMenu.classList.contains('open');
+                if (!isOpen) {
+                    hamburger.classList.add('open');
+                    mobileMenu.style.display = 'flex';
+                    requestAnimationFrame(() => mobileMenu.classList.add('open'));
+                } else {
+                    closeMenu();
+                }
             });
-        });
-        // Formspree form submission
+
+            // Close on link click
+            mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+        })();
+
+                // Formspree form submission
         const contactForm = document.getElementById('contact-form');
         if (contactForm) {
             const sendBtn = document.getElementById('send-btn');
